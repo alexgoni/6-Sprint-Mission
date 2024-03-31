@@ -128,7 +128,7 @@
   color: var(--blue);
   font-weight: 700;
   font-size: 18px;
-  line-height: 25.2px;
+  line-height: 25px;
 }
 
 .section__title {
@@ -145,7 +145,7 @@
   margin-top: 12px;
   font-weight: 500;
   font-size: 24px;
-  line-height: 28.8px;
+  line-height: 29px;
   letter-spacing: 8;
 }
 
@@ -324,7 +324,7 @@
   .home-top__title {
     text-align: center;
     font-size: 32px;
-    line-height: 44.8px;
+    line-height: 45px;
   }
 
   .home-top__title span {
@@ -355,7 +355,7 @@
 
   .section__subtitle {
     font-size: 16px;
-    line-height: 19.2px;
+    line-height: 19px;
     font-weight: 500;
   }
 
