@@ -8,6 +8,7 @@
   background-color: white;
   padding: 0 200px;
   position: sticky;
+  top: 0;
   left: 0;
   right: 0;
   z-index: var(--GNB);
@@ -364,7 +365,7 @@
   }
 
   .section__detail {
-    gap: 0px;
+    gap: 0;
   }
 
   /* home-bottom */
