@@ -1,16 +1,8 @@
+import { isEmpty, isValidEmail } from "../modules/auth.js";
+
 const emailInput = document.querySelector("#email");
 const errorMsg = document.createElement("span");
 errorMsg.classList.add("error-msg");
-
-function isEmpty(value) {
-  return !value.trim();
-}
-
-function isValidEmail(value) {
-  const validRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  return validRegex.test(value);
-}
 
 emailInput.addEventListener("focusout", (e) => {
   const input = e.currentTarget;
