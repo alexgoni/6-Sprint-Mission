@@ -2,10 +2,11 @@ import { isEmpty, isValidEmail, isValidPassword } from "../modules/auth.js";
 
 const emailInput = document.querySelector("#email");
 const passwordInput = document.querySelector("#password");
-const errorInputMsg = document.createElement("span");
-const passwordInputMsg = document.createElement("span");
-errorInputMsg.classList.add("error-msg");
-passwordInputMsg.classList.add("error-msg");
+const submitBtn = document.querySelector(".form__submit-btn");
+const loginErrorMsg = document.createElement("span");
+const passwordErrorMsg = document.createElement("span");
+loginErrorMsg.classList.add("error-msg");
+passwordErrorMsg.classList.add("error-msg");
 
 emailInput.addEventListener("focusout", (e) => {
   const input = e.currentTarget;
@@ -14,13 +15,13 @@ emailInput.addEventListener("focusout", (e) => {
 
   if (errorCondition) {
     input.classList.add("error");
-    errorInputMsg.textContent = isEmpty(value)
+    loginErrorMsg.textContent = isEmpty(value)
       ? "이메일을 입력해주세요"
       : "잘못된 이메일입니다";
-    input.after(errorInputMsg);
+    input.after(loginErrorMsg);
   } else {
     input.classList.remove("error");
-    errorInputMsg.remove();
+    loginErrorMsg.remove();
   }
 });
 
@@ -31,12 +32,33 @@ passwordInput.addEventListener("focusout", (e) => {
 
   if (errorCondition) {
     input.classList.add("error");
-    passwordInputMsg.textContent = isEmpty(value)
+    passwordErrorMsg.textContent = isEmpty(value)
       ? "비밀번호를 입력해주세요"
       : "비밀번호를 8자 이상 입력해주세요";
-    input.after(passwordInputMsg);
+    input.after(passwordErrorMsg);
   } else {
     input.classList.remove("error");
-    passwordInputMsg.remove();
+    passwordErrorMsg.remove();
   }
+});
+
+function updateSignUpButton() {
+  const validFormConditions =
+    !isEmpty(emailInput.value) &&
+    isValidEmail(emailInput.value) &&
+    !isEmpty(passwordInput.value) &&
+    isValidPassword(passwordInput.value);
+
+  if (validFormConditions) submitBtn.disabled = false;
+  else submitBtn.disabled = true;
+}
+
+updateSignUpButton();
+emailInput.addEventListener("input", updateSignUpButton);
+passwordInput.addEventListener("input", updateSignUpButton);
+// TODO: input / change 비교
+
+submitBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  window.location.href = "/items.html";
 });
