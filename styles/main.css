@@ -7,7 +7,7 @@
   align-items: center;
   background-color: white;
   padding: 0 200px;
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -34,6 +34,10 @@
 }
 
 /* home-top */
+
+.home-top {
+  margin-top: 70px;
+}
 
 .home-top,
 .home-bottom {
