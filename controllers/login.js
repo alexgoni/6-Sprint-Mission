@@ -1,4 +1,4 @@
-import { isEmpty, isValidEmail } from "../modules/auth.js";
+import { isEmpty, isValidEmail, isValidPassword } from "../modules/auth.js";
 
 const emailInput = document.querySelector("#email");
 const passwordInput = document.querySelector("#password");
@@ -24,19 +24,19 @@ emailInput.addEventListener("focusout", (e) => {
   }
 });
 
-// passwordInput.addEventListener("focusout", (e) => {
-//   const input = e.currentTarget;
-//   const { value } = input;
-//   const errorCondition = isEmpty(value) || !isValidEmail(value);
+passwordInput.addEventListener("focusout", (e) => {
+  const input = e.currentTarget;
+  const { value } = input;
+  const errorCondition = isEmpty(value) || !isValidPassword(value);
 
-//   if (errorCondition) {
-//     input.classList.add("error");
-//     passwordInputMsg.textContent = isEmpty(value)
-//       ? "비밀번호를 입력해주세요"
-//       : "비밀번호를 8자 이상 입력해주세요";
-//     input.after(passwordInputMsg);
-//   } else {
-//     input.classList.remove("error");
-//     passwordInputMsg.remove();
-//   }
-// });
+  if (errorCondition) {
+    input.classList.add("error");
+    passwordInputMsg.textContent = isEmpty(value)
+      ? "비밀번호를 입력해주세요"
+      : "비밀번호를 8자 이상 입력해주세요";
+    input.after(passwordInputMsg);
+  } else {
+    input.classList.remove("error");
+    passwordInputMsg.remove();
+  }
+});
