@@ -133,9 +133,8 @@
 
 /* error */
 
-/* TODO: !important 말고 다른 방법? */
-.error {
-  border: 2px solid var(--error) !important;
+.form__block input.error {
+  border: 2px solid var(--error);
 }
 
 .error-msg {
