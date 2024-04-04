@@ -1,4 +1,9 @@
-import { isEmpty, isValidEmail, isValidPassword } from "../modules/auth.js";
+import {
+  isEmpty,
+  isValidEmail,
+  isValidPassword,
+  isEqualString,
+} from "../modules/validate.js";
 
 describe("isEmpty function", () => {
   test("empty test", () => {
@@ -36,5 +41,17 @@ describe("isValidPassword function", () => {
   test("not valid password test", () => {
     expect(isValidPassword("1234567")).toBe(false);
     expect(isValidPassword("1234")).toBe(false);
+  });
+});
+
+describe("isEqualString function", () => {
+  test("equal string test", () => {
+    expect(isEqualString("1234", "1234")).toBe(true);
+    expect(isEqualString("hello  ", "hello")).toBe(true);
+  });
+
+  test("not equal string test", () => {
+    expect(isEqualString("1234", "1235")).toBe(false);
+    expect(isEqualString("hello", "helo")).toBe(false);
   });
 });

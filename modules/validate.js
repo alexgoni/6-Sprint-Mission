@@ -12,5 +12,5 @@ export function isValidPassword(value) {
 }
 
 export function isEqualString(str1, str2) {
-  return str1 === str2;
+  return str1.trim() === str2.trim();
 }
