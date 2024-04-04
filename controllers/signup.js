@@ -111,3 +111,33 @@ pwConfirmInput.addEventListener("input", (e) => {
   if (!isEqualString(password, value)) handleInvalidPWConfirm();
   else handleValidPassword();
 });
+
+function updateSignupBtn() {
+  const emailValid =
+    !isEmpty(emailInput.value) && isValidEmail(emailInput.value);
+  const passwordValid =
+    !isEmpty(passwordInput.value) && isValidPassword(passwordInput.value);
+  const usernameValid = !isEmpty(usernameInput.value);
+  const pwConfirmValid = isEqualString(
+    passwordInput.value,
+    pwConfirmInput.value
+  );
+
+  submitBtn.disabled = !(
+    emailValid &&
+    passwordValid &&
+    usernameValid &&
+    pwConfirmValid
+  );
+}
+
+updateSignupBtn();
+emailInput.addEventListener("input", updateSignupBtn);
+usernameInput.addEventListener("input", updateSignupBtn);
+passwordInput.addEventListener("input", updateSignupBtn);
+pwConfirmInput.addEventListener("input", updateSignupBtn);
+
+submitBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  window.location.href = "/login.html";
+});
