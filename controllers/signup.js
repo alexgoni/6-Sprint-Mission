@@ -2,6 +2,7 @@ import { isEmpty, isValidEmail, isValidPassword } from "../modules/validate.js";
 
 const emailInput = document.querySelector("#email");
 const passwordInput = document.querySelector("#password");
+const usernameInput = document.querySelector("#username");
 const submitBtn = document.querySelector(".form__submit-btn");
 
 const loginErrorMsg = document.createElement("span");
@@ -11,6 +12,28 @@ emailInput.after(loginErrorMsg);
 const passwordErrorMsg = document.createElement("span");
 passwordErrorMsg.classList.add("error-msg");
 passwordInput.parentNode.after(passwordErrorMsg);
+
+const usernameMsg = document.createElement("span");
+usernameMsg.classList.add("error-msg");
+usernameInput.after(usernameMsg);
+
+usernameInput.addEventListener("focusout", (e) => {
+  const input = e.currentTarget;
+  const { value } = input;
+
+  const handleEmpty = () => {
+    input.classList.add("error");
+    usernameMsg.textContent = "닉네임을 입력해주세요";
+  };
+
+  const handleValidUsername = () => {
+    input.classList.remove("error");
+    usernameMsg.textContent = "";
+  };
+
+  if (isEmpty(value)) handleEmpty();
+  else handleValidUsername();
+});
 
 emailInput.addEventListener("focusout", (e) => {
   const input = e.currentTarget;
