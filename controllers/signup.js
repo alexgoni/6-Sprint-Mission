@@ -1,39 +1,31 @@
-import { isEmpty, isValidEmail, isValidPassword } from "../modules/validate.js";
+import {
+  isEmpty,
+  isEqualString,
+  isValidEmail,
+  isValidPassword,
+} from "../modules/validate.js";
 
 const emailInput = document.querySelector("#email");
-const passwordInput = document.querySelector("#password");
 const usernameInput = document.querySelector("#username");
+const passwordInput = document.querySelector("#password");
+const pwConfirmInput = document.querySelector("#password-confirm");
 const submitBtn = document.querySelector(".form__submit-btn");
 
 const loginErrorMsg = document.createElement("span");
 loginErrorMsg.classList.add("error-msg");
 emailInput.after(loginErrorMsg);
 
-const passwordErrorMsg = document.createElement("span");
-passwordErrorMsg.classList.add("error-msg");
-passwordInput.parentNode.after(passwordErrorMsg);
-
 const usernameMsg = document.createElement("span");
 usernameMsg.classList.add("error-msg");
 usernameInput.after(usernameMsg);
 
-usernameInput.addEventListener("focusout", (e) => {
-  const input = e.currentTarget;
-  const { value } = input;
+const passwordErrorMsg = document.createElement("span");
+passwordErrorMsg.classList.add("error-msg");
+passwordInput.parentNode.after(passwordErrorMsg);
 
-  const handleEmpty = () => {
-    input.classList.add("error");
-    usernameMsg.textContent = "닉네임을 입력해주세요";
-  };
-
-  const handleValidUsername = () => {
-    input.classList.remove("error");
-    usernameMsg.textContent = "";
-  };
-
-  if (isEmpty(value)) handleEmpty();
-  else handleValidUsername();
-});
+const pwConfirmMsg = document.createElement("span");
+pwConfirmMsg.classList.add("error-msg");
+pwConfirmInput.parentNode.after(pwConfirmMsg);
 
 emailInput.addEventListener("focusout", (e) => {
   const input = e.currentTarget;
@@ -59,6 +51,24 @@ emailInput.addEventListener("focusout", (e) => {
   else handleValidEmail();
 });
 
+usernameInput.addEventListener("focusout", (e) => {
+  const input = e.currentTarget;
+  const { value } = input;
+
+  const handleEmpty = () => {
+    input.classList.add("error");
+    usernameMsg.textContent = "닉네임을 입력해주세요";
+  };
+
+  const handleValidUsername = () => {
+    input.classList.remove("error");
+    usernameMsg.textContent = "";
+  };
+
+  if (isEmpty(value)) handleEmpty();
+  else handleValidUsername();
+});
+
 passwordInput.addEventListener("focusout", (e) => {
   const input = e.currentTarget;
   const { value } = input;
@@ -80,5 +90,24 @@ passwordInput.addEventListener("focusout", (e) => {
 
   if (isEmpty(value)) handleEmpty();
   else if (!isValidPassword(value)) handleInvalidPassword();
+  else handleValidPassword();
+});
+
+pwConfirmInput.addEventListener("input", (e) => {
+  const input = e.currentTarget;
+  const { value } = input;
+  const password = passwordInput.value;
+
+  const handleInvalidPWConfirm = () => {
+    input.classList.add("error");
+    pwConfirmMsg.textContent = "비밀번호가 일치하지 않습니다";
+  };
+
+  const handleValidPassword = () => {
+    input.classList.remove("error");
+    pwConfirmMsg.textContent = "";
+  };
+
+  if (!isEqualString(password, value)) handleInvalidPWConfirm();
   else handleValidPassword();
 });
