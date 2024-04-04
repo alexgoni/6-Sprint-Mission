@@ -10,6 +10,8 @@ const usernameInput = document.querySelector("#username");
 const passwordInput = document.querySelector("#password");
 const pwConfirmInput = document.querySelector("#password-confirm");
 const submitBtn = document.querySelector(".form__submit-btn");
+const passwordEye = document.querySelector("#password-eye");
+const pwConfirmEye = document.querySelector("#pw-confirm-eye");
 
 const loginErrorMsg = document.createElement("span");
 loginErrorMsg.classList.add("error-msg");
@@ -140,4 +142,24 @@ pwConfirmInput.addEventListener("input", updateSignupBtn);
 submitBtn.addEventListener("click", (e) => {
   e.preventDefault();
   window.location.href = "/login.html";
+});
+
+function togglePWEye(inputNode, icon) {
+  const type =
+    inputNode.getAttribute("type") === "password" ? "text" : "password";
+  const img =
+    inputNode.getAttribute("type") === "password"
+      ? "/assets/icon/password_eye-open.svg"
+      : "/assets/icon/password_eye.svg";
+
+  inputNode.setAttribute("type", type);
+  icon.src = img;
+}
+
+passwordEye.addEventListener("click", () => {
+  togglePWEye(passwordInput, passwordEye);
+});
+
+pwConfirmEye.addEventListener("click", () => {
+  togglePWEye(pwConfirmInput, pwConfirmEye);
 });

@@ -3,6 +3,7 @@ import { isEmpty, isValidEmail, isValidPassword } from "../modules/validate.js";
 const emailInput = document.querySelector("#email");
 const passwordInput = document.querySelector("#password");
 const submitBtn = document.querySelector(".form__submit-btn");
+const passwordEye = document.querySelector(".password-eye");
 
 const loginErrorMsg = document.createElement("span");
 loginErrorMsg.classList.add("error-msg");
@@ -76,4 +77,16 @@ passwordInput.addEventListener("input", updateLoginBtn);
 submitBtn.addEventListener("click", (e) => {
   e.preventDefault();
   window.location.href = "/items.html";
+});
+
+passwordEye.addEventListener("click", () => {
+  const type =
+    passwordInput.getAttribute("type") === "password" ? "text" : "password";
+  const img =
+    passwordInput.getAttribute("type") === "password"
+      ? "/assets/icon/password_eye-open.svg"
+      : "/assets/icon/password_eye.svg";
+
+  passwordInput.setAttribute("type", type);
+  passwordEye.src = img;
 });
