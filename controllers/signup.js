@@ -1,3 +1,9 @@
+import { ERRORS } from "../modules/constants.js";
+import {
+  handleInvalid,
+  handleToggleIcon,
+  handleValid,
+} from "../modules/handlers.js";
 import {
   isEmpty,
   isEqualString,
@@ -13,86 +19,71 @@ const submitBtn = document.querySelector(".form__submit-btn");
 const passwordEye = document.querySelector("#password-eye");
 const pwConfirmEye = document.querySelector("#pw-confirm-eye");
 
-const loginErrorMsg = document.createElement("span");
-loginErrorMsg.classList.add("error-msg");
-emailInput.after(loginErrorMsg);
+const emailErrorNode = document.createElement("span");
+emailErrorNode.classList.add("error-msg");
+emailInput.after(emailErrorNode);
 
-const usernameMsg = document.createElement("span");
-usernameMsg.classList.add("error-msg");
-usernameInput.after(usernameMsg);
+const usernameErrorNode = document.createElement("span");
+usernameErrorNode.classList.add("error-msg");
+usernameInput.after(usernameErrorNode);
 
-const passwordErrorMsg = document.createElement("span");
-passwordErrorMsg.classList.add("error-msg");
-passwordInput.parentNode.after(passwordErrorMsg);
+const pwErrorNode = document.createElement("span");
+pwErrorNode.classList.add("error-msg");
+passwordInput.parentNode.after(pwErrorNode);
 
-const pwConfirmMsg = document.createElement("span");
-pwConfirmMsg.classList.add("error-msg");
-pwConfirmInput.parentNode.after(pwConfirmMsg);
+const pwConfirmErrorNode = document.createElement("span");
+pwConfirmErrorNode.classList.add("error-msg");
+pwConfirmInput.parentNode.after(pwConfirmErrorNode);
 
 emailInput.addEventListener("focusout", (e) => {
   const input = e.currentTarget;
   const { value } = input;
 
-  const handleEmpty = () => {
-    input.classList.add("error");
-    loginErrorMsg.textContent = "이메일을 입력해주세요";
-  };
-
-  const handleInvalidEmail = () => {
-    input.classList.add("error");
-    loginErrorMsg.textContent = "잘못된 이메일입니다";
-  };
-
-  const handleValidEmail = () => {
-    input.classList.remove("error");
-    loginErrorMsg.textContent = "";
-  };
-
-  if (isEmpty(value)) handleEmpty();
-  else if (!isValidEmail(value)) handleInvalidEmail();
-  else handleValidEmail();
+  if (isEmpty(value)) {
+    handleInvalid({
+      input,
+      errorMsgNode: emailErrorNode,
+      errorMsg: ERRORS.EMPTY_EMAIL,
+    });
+  } else if (!isValidEmail(value)) {
+    handleInvalid({
+      input,
+      errorMsgNode: emailErrorNode,
+      errorMsg: ERRORS.INVALID_EMAIL,
+    });
+  } else handleValid({ input, errorMsgNode: emailErrorNode });
 });
 
 usernameInput.addEventListener("focusout", (e) => {
   const input = e.currentTarget;
   const { value } = input;
 
-  const handleEmpty = () => {
-    input.classList.add("error");
-    usernameMsg.textContent = "닉네임을 입력해주세요";
-  };
-
-  const handleValidUsername = () => {
-    input.classList.remove("error");
-    usernameMsg.textContent = "";
-  };
-
-  if (isEmpty(value)) handleEmpty();
-  else handleValidUsername();
+  if (isEmpty(value)) {
+    handleInvalid({
+      input,
+      errorMsgNode: usernameErrorNode,
+      errorMsg: ERRORS.EMPTY_USERNAME,
+    });
+  } else handleValid({ input, errorMsgNode: usernameErrorNode });
 });
 
 passwordInput.addEventListener("focusout", (e) => {
   const input = e.currentTarget;
   const { value } = input;
 
-  const handleEmpty = () => {
-    input.classList.add("error");
-    passwordErrorMsg.textContent = "비밀번호를 입력해주세요";
-  };
-
-  const handleInvalidPassword = () => {
-    input.classList.add("error");
-    passwordErrorMsg.textContent = "비밀번호를 8자 이상 입력해주세요";
-  };
-
-  const handleValidPassword = () => {
-    input.classList.remove("error");
-    passwordErrorMsg.textContent = "";
-  };
-
-  if (isEmpty(value)) handleEmpty();
-  else if (!isValidPassword(value)) handleInvalidPassword();
-  else handleValidPassword();
+  if (isEmpty(value)) {
+    handleInvalid({
+      input,
+      errorMsgNode: pwErrorNode,
+      errorMsg: ERRORS.EMPTY_PW,
+    });
+  } else if (!isValidPassword(value)) {
+    handleInvalid({
+      input,
+      errorMsgNode: pwErrorNode,
+      errorMsg: ERRORS.INVALID_PW,
+    });
+  } else handleValid({ input, errorMsgNode: pwErrorNode });
 });
 
 pwConfirmInput.addEventListener("input", (e) => {
@@ -100,18 +91,13 @@ pwConfirmInput.addEventListener("input", (e) => {
   const { value } = input;
   const password = passwordInput.value;
 
-  const handleInvalidPWConfirm = () => {
-    input.classList.add("error");
-    pwConfirmMsg.textContent = "비밀번호가 일치하지 않습니다";
-  };
-
-  const handleValidPassword = () => {
-    input.classList.remove("error");
-    pwConfirmMsg.textContent = "";
-  };
-
-  if (!isEqualString(password, value)) handleInvalidPWConfirm();
-  else handleValidPassword();
+  if (!isEqualString(password, value)) {
+    handleInvalid({
+      input,
+      errorMsgNode: pwConfirmErrorNode,
+      errorMsg: ERRORS.PW_NOT_MATCHED,
+    });
+  } else handleValid({ input, errorMsgNode: pwConfirmErrorNode });
 });
 
 function updateSignupBtn() {
@@ -144,22 +130,10 @@ submitBtn.addEventListener("click", (e) => {
   window.location.href = "/login.html";
 });
 
-function togglePWEye(inputNode, icon) {
-  const type =
-    inputNode.getAttribute("type") === "password" ? "text" : "password";
-  const img =
-    inputNode.getAttribute("type") === "password"
-      ? "/assets/icon/password_eye-open.svg"
-      : "/assets/icon/password_eye.svg";
-
-  inputNode.setAttribute("type", type);
-  icon.src = img;
-}
-
 passwordEye.addEventListener("click", () => {
-  togglePWEye(passwordInput, passwordEye);
+  handleToggleIcon(passwordInput, passwordEye);
 });
 
 pwConfirmEye.addEventListener("click", () => {
-  togglePWEye(pwConfirmInput, pwConfirmEye);
+  handleToggleIcon(pwConfirmInput, pwConfirmEye);
 });

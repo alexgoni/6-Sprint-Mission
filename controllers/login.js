@@ -1,3 +1,9 @@
+import { ERRORS } from "../modules/constants.js";
+import {
+  handleInvalid,
+  handleToggleIcon,
+  handleValid,
+} from "../modules/handlers.js";
 import { isEmpty, isValidEmail, isValidPassword } from "../modules/validate.js";
 
 const emailInput = document.querySelector("#email");
@@ -5,60 +11,50 @@ const passwordInput = document.querySelector("#password");
 const submitBtn = document.querySelector(".form__submit-btn");
 const passwordEye = document.querySelector(".password-eye");
 
-const loginErrorMsg = document.createElement("span");
-loginErrorMsg.classList.add("error-msg");
-emailInput.after(loginErrorMsg);
+const emailErrorNode = document.createElement("span");
+emailErrorNode.classList.add("error-msg");
+emailInput.after(emailErrorNode);
 
-const passwordErrorMsg = document.createElement("span");
-passwordErrorMsg.classList.add("error-msg");
-passwordInput.parentNode.after(passwordErrorMsg);
+const pwErrorNode = document.createElement("span");
+pwErrorNode.classList.add("error-msg");
+passwordInput.parentNode.after(pwErrorNode);
 
 emailInput.addEventListener("focusout", (e) => {
   const input = e.currentTarget;
   const { value } = input;
 
-  const handleEmpty = () => {
-    input.classList.add("error");
-    loginErrorMsg.textContent = "이메일을 입력해주세요";
-  };
-
-  const handleInvalidEmail = () => {
-    input.classList.add("error");
-    loginErrorMsg.textContent = "잘못된 이메일입니다";
-  };
-
-  const handleValidEmail = () => {
-    input.classList.remove("error");
-    loginErrorMsg.textContent = "";
-  };
-
-  if (isEmpty(value)) handleEmpty();
-  else if (!isValidEmail(value)) handleInvalidEmail();
-  else handleValidEmail();
+  if (isEmpty(value)) {
+    handleInvalid({
+      input,
+      errorMsgNode: emailErrorNode,
+      errorMsg: ERRORS.EMPTY_EMAIL,
+    });
+  } else if (!isValidEmail(value)) {
+    handleInvalid({
+      input,
+      errorMsgNode: emailErrorNode,
+      errorMsg: ERRORS.INVALID_EMAIL,
+    });
+  } else handleValid({ input, errorMsgNode: emailErrorNode });
 });
 
 passwordInput.addEventListener("focusout", (e) => {
   const input = e.currentTarget;
   const { value } = input;
 
-  const handleEmpty = () => {
-    input.classList.add("error");
-    passwordErrorMsg.textContent = "비밀번호를 입력해주세요";
-  };
-
-  const handleInvalidPassword = () => {
-    input.classList.add("error");
-    passwordErrorMsg.textContent = "비밀번호를 8자 이상 입력해주세요";
-  };
-
-  const handleValidPassword = () => {
-    input.classList.remove("error");
-    passwordErrorMsg.textContent = "";
-  };
-
-  if (isEmpty(value)) handleEmpty();
-  else if (!isValidPassword(value)) handleInvalidPassword();
-  else handleValidPassword();
+  if (isEmpty(value)) {
+    handleInvalid({
+      input,
+      errorMsgNode: pwErrorNode,
+      errorMsg: ERRORS.EMPTY_PW,
+    });
+  } else if (!isValidPassword(value)) {
+    handleInvalid({
+      input,
+      errorMsgNode: pwErrorNode,
+      errorMsg: ERRORS.INVALID_PW,
+    });
+  } else handleValid({ input, errorMsgNode: pwErrorNode });
 });
 
 function updateLoginBtn() {
@@ -80,13 +76,5 @@ submitBtn.addEventListener("click", (e) => {
 });
 
 passwordEye.addEventListener("click", () => {
-  const type =
-    passwordInput.getAttribute("type") === "password" ? "text" : "password";
-  const img =
-    passwordInput.getAttribute("type") === "password"
-      ? "/assets/icon/password_eye-open.svg"
-      : "/assets/icon/password_eye.svg";
-
-  passwordInput.setAttribute("type", type);
-  passwordEye.src = img;
+  handleToggleIcon(passwordInput, passwordEye);
 });
