@@ -60,7 +60,7 @@ passwordInput.addEventListener("focusout", (e) => {
   else handleValidPassword();
 });
 
-function updateSignUpButton() {
+function updateLoginBtn() {
   const emailValid =
     !isEmpty(emailInput.value) && isValidEmail(emailInput.value);
   const passwordValid =
@@ -69,9 +69,9 @@ function updateSignUpButton() {
   submitBtn.disabled = !(emailValid && passwordValid);
 }
 
-updateSignUpButton();
-emailInput.addEventListener("input", updateSignUpButton);
-passwordInput.addEventListener("input", updateSignUpButton);
+updateLoginBtn();
+emailInput.addEventListener("input", updateLoginBtn);
+passwordInput.addEventListener("input", updateLoginBtn);
 
 submitBtn.addEventListener("click", (e) => {
   e.preventDefault();
