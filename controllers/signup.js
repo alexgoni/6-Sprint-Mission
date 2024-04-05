@@ -1,15 +1,6 @@
-import { ERRORS } from "../modules/constants.js";
-import {
-  handleInvalid,
-  handleToggleIcon,
-  handleValid,
-} from "../modules/handlers.js";
-import {
-  isEmpty,
-  isEqualString,
-  isValidEmail,
-  isValidPassword,
-} from "../modules/validate.js";
+import AuthChecker from "../modules/core/AuthChecker.js";
+import toggleIcon from "../modules/lib/toggleIcon.js";
+import AuthStore from "../modules/DB/AuthStore.js";
 
 const emailInput = document.querySelector("#email");
 const usernameInput = document.querySelector("#username");
@@ -19,105 +10,67 @@ const submitBtn = document.querySelector(".form__submit-btn");
 const passwordEye = document.querySelector("#password-eye");
 const pwConfirmEye = document.querySelector("#pw-confirm-eye");
 
-const emailErrorNode = document.createElement("span");
-emailErrorNode.classList.add("error-msg");
-emailInput.after(emailErrorNode);
+const emailError = document.createElement("span");
+emailError.classList.add("error-msg");
+emailInput.after(emailError);
 
-const usernameErrorNode = document.createElement("span");
-usernameErrorNode.classList.add("error-msg");
-usernameInput.after(usernameErrorNode);
+const usernameError = document.createElement("span");
+usernameError.classList.add("error-msg");
+usernameInput.after(usernameError);
 
-const pwErrorNode = document.createElement("span");
-pwErrorNode.classList.add("error-msg");
-passwordInput.parentNode.after(pwErrorNode);
+const passwordError = document.createElement("span");
+passwordError.classList.add("error-msg");
+passwordInput.parentNode.after(passwordError);
 
-const pwConfirmErrorNode = document.createElement("span");
-pwConfirmErrorNode.classList.add("error-msg");
-pwConfirmInput.parentNode.after(pwConfirmErrorNode);
+const pwConfirmError = document.createElement("span");
+pwConfirmError.classList.add("error-msg");
+pwConfirmInput.parentNode.after(pwConfirmError);
 
-emailInput.addEventListener("focusout", (e) => {
-  const input = e.currentTarget;
-  const { value } = input;
+const email = {
+  input: emailInput,
+  errorMsgNode: emailError,
+};
 
-  if (isEmpty(value)) {
-    handleInvalid({
-      input,
-      errorMsgNode: emailErrorNode,
-      errorMsg: ERRORS.EMPTY_EMAIL,
-    });
-  } else if (!isValidEmail(value)) {
-    handleInvalid({
-      input,
-      errorMsgNode: emailErrorNode,
-      errorMsg: ERRORS.INVALID_EMAIL,
-    });
-  } else handleValid({ input, errorMsgNode: emailErrorNode });
+const password = {
+  input: passwordInput,
+  errorMsgNode: passwordError,
+};
+
+const username = {
+  input: usernameInput,
+  errorMsgNode: usernameError,
+};
+
+const pwConfirm = {
+  input: pwConfirmInput,
+  errorMsgNode: pwConfirmError,
+};
+
+const nodes = { email, password, submitBtn, username, pwConfirm };
+const store = new AuthStore("signup");
+store.saveDOMNodes = nodes;
+
+const authChecker = new AuthChecker(store);
+
+emailInput.addEventListener("focusout", () => {
+  authChecker.checkEmailInput();
 });
 
-usernameInput.addEventListener("focusout", (e) => {
-  const input = e.currentTarget;
-  const { value } = input;
-
-  if (isEmpty(value)) {
-    handleInvalid({
-      input,
-      errorMsgNode: usernameErrorNode,
-      errorMsg: ERRORS.EMPTY_USERNAME,
-    });
-  } else handleValid({ input, errorMsgNode: usernameErrorNode });
+usernameInput.addEventListener("focusout", () => {
+  authChecker.checkUsernameInput();
 });
 
-passwordInput.addEventListener("focusout", (e) => {
-  const input = e.currentTarget;
-  const { value } = input;
-
-  if (isEmpty(value)) {
-    handleInvalid({
-      input,
-      errorMsgNode: pwErrorNode,
-      errorMsg: ERRORS.EMPTY_PW,
-    });
-  } else if (!isValidPassword(value)) {
-    handleInvalid({
-      input,
-      errorMsgNode: pwErrorNode,
-      errorMsg: ERRORS.INVALID_PW,
-    });
-  } else handleValid({ input, errorMsgNode: pwErrorNode });
+passwordInput.addEventListener("focusout", () => {
+  authChecker.checkPasswordInput();
 });
 
-pwConfirmInput.addEventListener("input", (e) => {
-  const input = e.currentTarget;
-  const { value } = input;
-  const password = passwordInput.value;
-
-  if (!isEqualString(password, value)) {
-    handleInvalid({
-      input,
-      errorMsgNode: pwConfirmErrorNode,
-      errorMsg: ERRORS.PW_NOT_MATCHED,
-    });
-  } else handleValid({ input, errorMsgNode: pwConfirmErrorNode });
+pwConfirmInput.addEventListener("input", () => {
+  authChecker.checkPWConfirmInput();
 });
 
-function updateSignupBtn() {
-  const emailValid =
-    !isEmpty(emailInput.value) && isValidEmail(emailInput.value);
-  const passwordValid =
-    !isEmpty(passwordInput.value) && isValidPassword(passwordInput.value);
-  const usernameValid = !isEmpty(usernameInput.value);
-  const pwConfirmValid = isEqualString(
-    passwordInput.value,
-    pwConfirmInput.value
-  );
-
-  submitBtn.disabled = !(
-    emailValid &&
-    passwordValid &&
-    usernameValid &&
-    pwConfirmValid
-  );
-}
+const updateSignupBtn = () => {
+  authChecker.updateSignupBtn();
+};
 
 updateSignupBtn();
 emailInput.addEventListener("input", updateSignupBtn);
@@ -131,9 +84,9 @@ submitBtn.addEventListener("click", (e) => {
 });
 
 passwordEye.addEventListener("click", () => {
-  handleToggleIcon(passwordInput, passwordEye);
+  toggleIcon(passwordInput, passwordEye);
 });
 
 pwConfirmEye.addEventListener("click", () => {
-  handleToggleIcon(pwConfirmInput, pwConfirmEye);
+  toggleIcon(pwConfirmInput, pwConfirmEye);
 });

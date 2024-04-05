@@ -1,72 +1,48 @@
-import { ERRORS } from "../modules/constants.js";
-import {
-  handleInvalid,
-  handleToggleIcon,
-  handleValid,
-} from "../modules/handlers.js";
-import { isEmpty, isValidEmail, isValidPassword } from "../modules/validate.js";
+import AuthChecker from "../modules/core/AuthChecker.js";
+import toggleIcon from "../modules/lib/toggleIcon.js";
+import AuthStore from "../modules/DB/AuthStore.js";
 
 const emailInput = document.querySelector("#email");
 const passwordInput = document.querySelector("#password");
 const submitBtn = document.querySelector(".form__submit-btn");
 const passwordEye = document.querySelector(".password-eye");
 
-const emailErrorNode = document.createElement("span");
-emailErrorNode.classList.add("error-msg");
-emailInput.after(emailErrorNode);
+const emailError = document.createElement("span");
+emailError.classList.add("error-msg");
+emailInput.after(emailError);
 
-const pwErrorNode = document.createElement("span");
-pwErrorNode.classList.add("error-msg");
-passwordInput.parentNode.after(pwErrorNode);
+const passwordError = document.createElement("span");
+passwordError.classList.add("error-msg");
+passwordInput.parentNode.after(passwordError);
 
-emailInput.addEventListener("focusout", (e) => {
-  const input = e.currentTarget;
-  const { value } = input;
+const email = {
+  input: emailInput,
+  errorMsgNode: emailError,
+};
 
-  if (isEmpty(value)) {
-    handleInvalid({
-      input,
-      errorMsgNode: emailErrorNode,
-      errorMsg: ERRORS.EMPTY_EMAIL,
-    });
-  } else if (!isValidEmail(value)) {
-    handleInvalid({
-      input,
-      errorMsgNode: emailErrorNode,
-      errorMsg: ERRORS.INVALID_EMAIL,
-    });
-  } else handleValid({ input, errorMsgNode: emailErrorNode });
+const password = {
+  input: passwordInput,
+  errorMsgNode: passwordError,
+};
+
+const nodes = { email, password, submitBtn };
+const store = new AuthStore("login");
+store.saveDOMNodes = nodes;
+
+const authChecker = new AuthChecker(store);
+
+emailInput.addEventListener("focusout", () => {
+  authChecker.checkEmailInput();
 });
 
-passwordInput.addEventListener("focusout", (e) => {
-  const input = e.currentTarget;
-  const { value } = input;
-
-  if (isEmpty(value)) {
-    handleInvalid({
-      input,
-      errorMsgNode: pwErrorNode,
-      errorMsg: ERRORS.EMPTY_PW,
-    });
-  } else if (!isValidPassword(value)) {
-    handleInvalid({
-      input,
-      errorMsgNode: pwErrorNode,
-      errorMsg: ERRORS.INVALID_PW,
-    });
-  } else handleValid({ input, errorMsgNode: pwErrorNode });
+passwordInput.addEventListener("focusout", () => {
+  authChecker.checkPasswordInput();
 });
 
-function updateLoginBtn() {
-  const emailValid =
-    !isEmpty(emailInput.value) && isValidEmail(emailInput.value);
-  const passwordValid =
-    !isEmpty(passwordInput.value) && isValidPassword(passwordInput.value);
-
-  submitBtn.disabled = !(emailValid && passwordValid);
-}
-
-updateLoginBtn();
+const updateLoginBtn = () => {
+  authChecker.updateLoginBtn();
+};
+authChecker.updateLoginBtn();
 emailInput.addEventListener("input", updateLoginBtn);
 passwordInput.addEventListener("input", updateLoginBtn);
 
@@ -76,5 +52,5 @@ submitBtn.addEventListener("click", (e) => {
 });
 
 passwordEye.addEventListener("click", () => {
-  handleToggleIcon(passwordInput, passwordEye);
+  toggleIcon(passwordInput, passwordEye);
 });
