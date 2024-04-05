@@ -3,7 +3,7 @@ import {
   isValidEmail,
   isValidPassword,
   isEqualString,
-} from "../modules/validate.js";
+} from "../modules/lib/validate.js";
 
 describe("isEmpty function", () => {
   test("empty test", () => {
