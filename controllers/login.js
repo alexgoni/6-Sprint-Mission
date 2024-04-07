@@ -2,6 +2,7 @@ import AuthChecker from "../modules/core/AuthChecker.js";
 import toggleIcon from "../modules/lib/toggleIcon.js";
 import AuthStore from "../modules/DB/AuthStore.js";
 
+const loginForm = document.querySelector(".login-form");
 const emailInput = document.querySelector("#email");
 const emailError = document.querySelector("#email-error");
 const passwordInput = document.querySelector("#password");
@@ -40,7 +41,7 @@ authChecker.updateLoginBtn();
 emailInput.addEventListener("input", updateLoginBtn);
 passwordInput.addEventListener("input", updateLoginBtn);
 
-submitBtn.addEventListener("click", (e) => {
+loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
   window.location.href = "/items.html";
 });

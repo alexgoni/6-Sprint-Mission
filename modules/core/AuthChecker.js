@@ -32,7 +32,7 @@ export default class AuthChecker {
     if (isEmpty(value)) {
       this.#handleInvalid(input, errorMsgNode, ERRORS.EMPTY_PW);
     } else if (!isValidPassword(value)) {
-      this.#handleInvalid(input, errorMsgNode, ERRORS.INVALID_EMAIL);
+      this.#handleInvalid(input, errorMsgNode, ERRORS.INVALID_PW);
     } else this.#handleValid(input, errorMsgNode);
   }
 
