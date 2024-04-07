@@ -3,28 +3,16 @@ import toggleIcon from "../modules/lib/toggleIcon.js";
 import AuthStore from "../modules/DB/AuthStore.js";
 
 const emailInput = document.querySelector("#email");
+const emailError = document.querySelector("#email-error");
 const usernameInput = document.querySelector("#username");
+const usernameError = document.querySelector("#username-error");
 const passwordInput = document.querySelector("#password");
-const pwConfirmInput = document.querySelector("#password-confirm");
-const submitBtn = document.querySelector(".form__submit-btn");
+const passwordError = document.querySelector("#password-error");
 const passwordEye = document.querySelector("#password-eye");
+const pwConfirmInput = document.querySelector("#password-confirm");
+const pwConfirmError = document.querySelector("#pw-confirm-error");
 const pwConfirmEye = document.querySelector("#pw-confirm-eye");
-
-const emailError = document.createElement("span");
-emailError.classList.add("error-msg");
-emailInput.after(emailError);
-
-const usernameError = document.createElement("span");
-usernameError.classList.add("error-msg");
-usernameInput.after(usernameError);
-
-const passwordError = document.createElement("span");
-passwordError.classList.add("error-msg");
-passwordInput.parentNode.after(passwordError);
-
-const pwConfirmError = document.createElement("span");
-pwConfirmError.classList.add("error-msg");
-pwConfirmInput.parentNode.after(pwConfirmError);
+const submitBtn = document.querySelector(".form__submit-btn");
 
 const email = {
   input: emailInput,

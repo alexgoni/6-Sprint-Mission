@@ -3,17 +3,11 @@ import toggleIcon from "../modules/lib/toggleIcon.js";
 import AuthStore from "../modules/DB/AuthStore.js";
 
 const emailInput = document.querySelector("#email");
+const emailError = document.querySelector("#email-error");
 const passwordInput = document.querySelector("#password");
-const submitBtn = document.querySelector(".form__submit-btn");
+const passwordError = document.querySelector("#password-error");
 const passwordEye = document.querySelector(".password-eye");
-
-const emailError = document.createElement("span");
-emailError.classList.add("error-msg");
-emailInput.after(emailError);
-
-const passwordError = document.createElement("span");
-passwordError.classList.add("error-msg");
-passwordInput.parentNode.after(passwordError);
+const submitBtn = document.querySelector(".form__submit-btn");
 
 const email = {
   input: emailInput,
