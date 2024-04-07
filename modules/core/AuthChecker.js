@@ -13,14 +13,14 @@ export default class AuthChecker {
   #username;
   #pwConfirm;
 
-  set saveDOMNodes(node) {
+  set saveDOMNodes(nodes) {
     const {
       email,
       password,
       submitBtn,
       username = null,
       pwConfirm = null,
-    } = node;
+    } = nodes;
 
     this.#email = email;
     this.#password = password;
