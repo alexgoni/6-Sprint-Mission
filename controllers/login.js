@@ -23,26 +23,28 @@ const nodes = { email, password, submitBtn };
 const authChecker = new AuthChecker();
 authChecker.saveDOMNodes = nodes;
 
-emailInput.addEventListener("focusout", () => {
+const handleEmailFocusOut = () => {
   authChecker.checkEmailInput();
-});
+};
 
-passwordInput.addEventListener("focusout", () => {
+const handlePWFocusOut = () => {
   authChecker.checkPasswordInput();
-});
+};
 
-const updateLoginBtn = () => {
+const handleInputChange = () => {
   authChecker.updateLoginBtn();
 };
-authChecker.updateLoginBtn();
-emailInput.addEventListener("input", updateLoginBtn);
-passwordInput.addEventListener("input", updateLoginBtn);
+
+emailInput.addEventListener("focusout", handleEmailFocusOut);
+passwordInput.addEventListener("focusout", handlePWFocusOut);
+emailInput.addEventListener("change", handleInputChange);
+passwordInput.addEventListener("change", handleInputChange);
+
+passwordEye.addEventListener("click", () => {
+  toggleIcon(passwordInput, passwordEye);
+});
 
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
   window.location.href = "/items.html";
-});
-
-passwordEye.addEventListener("click", () => {
-  toggleIcon(passwordInput, passwordEye);
 });

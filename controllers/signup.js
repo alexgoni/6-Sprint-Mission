@@ -2,6 +2,7 @@ import AuthChecker from "../modules/core/AuthChecker.js";
 import toggleIcon from "../modules/lib/toggleIcon.js";
 
 const signupForm = document.querySelector(".signup-form");
+const inputs = document.getElementsByTagName("input");
 const emailInput = document.querySelector("#email");
 const emailError = document.querySelector("#email-error");
 const usernameInput = document.querySelector("#username");
@@ -38,36 +39,34 @@ const nodes = { email, password, submitBtn, username, pwConfirm };
 const authChecker = new AuthChecker();
 authChecker.saveDOMNodes = nodes;
 
-emailInput.addEventListener("focusout", () => {
+const handleEmailFocusOut = () => {
   authChecker.checkEmailInput();
-});
+};
 
-usernameInput.addEventListener("focusout", () => {
+const handleUsernameFocusOut = () => {
   authChecker.checkUsernameInput();
-});
+};
 
-passwordInput.addEventListener("focusout", () => {
+const handlePWFocusOut = () => {
   authChecker.checkPasswordInput();
-});
+};
 
-pwConfirmInput.addEventListener("input", () => {
+const handlePWConfirmInput = () => {
   authChecker.checkPWConfirmInput();
-});
+};
 
-const updateSignupBtn = () => {
+const handleInputChange = () => {
   authChecker.updateSignupBtn();
 };
 
-updateSignupBtn();
-emailInput.addEventListener("input", updateSignupBtn);
-usernameInput.addEventListener("input", updateSignupBtn);
-passwordInput.addEventListener("input", updateSignupBtn);
-pwConfirmInput.addEventListener("input", updateSignupBtn);
+emailInput.addEventListener("focusout", handleEmailFocusOut);
+usernameInput.addEventListener("focusout", handleUsernameFocusOut);
+passwordInput.addEventListener("focusout", handlePWFocusOut);
+pwConfirmInput.addEventListener("input", handlePWConfirmInput);
 
-signupForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  window.location.href = "/login.html";
-});
+for (const input of inputs) {
+  input.addEventListener("change", handleInputChange);
+}
 
 passwordEye.addEventListener("click", () => {
   toggleIcon(passwordInput, passwordEye);
@@ -75,4 +74,9 @@ passwordEye.addEventListener("click", () => {
 
 pwConfirmEye.addEventListener("click", () => {
   toggleIcon(pwConfirmInput, pwConfirmEye);
+});
+
+signupForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  window.location.href = "/login.html";
 });
