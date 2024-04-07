@@ -7,15 +7,30 @@ import {
 } from "../lib/validate.js";
 
 export default class AuthChecker {
-  #nodes;
+  #email;
+  #password;
+  #submitBtn;
+  #username;
+  #pwConfirm;
 
-  constructor(store) {
-    this.store = store;
-    this.#nodes = this.store.readDOMNodes;
+  set saveDOMNodes(node) {
+    const {
+      email,
+      password,
+      submitBtn,
+      username = null,
+      pwConfirm = null,
+    } = node;
+
+    this.#email = email;
+    this.#password = password;
+    this.#submitBtn = submitBtn;
+    this.#username = username;
+    this.#pwConfirm = pwConfirm;
   }
 
   checkEmailInput() {
-    const { input, errorMsgNode } = this.#nodes.email;
+    const { input, errorMsgNode } = this.#email;
     const { value } = input;
 
     if (isEmpty(value)) {
@@ -26,7 +41,7 @@ export default class AuthChecker {
   }
 
   checkPasswordInput() {
-    const { input, errorMsgNode } = this.#nodes.password;
+    const { input, errorMsgNode } = this.#password;
     const { value } = input;
 
     if (isEmpty(value)) {
@@ -37,7 +52,7 @@ export default class AuthChecker {
   }
 
   checkUsernameInput() {
-    const { input, errorMsgNode } = this.#nodes.username;
+    const { input, errorMsgNode } = this.#username;
     const { value } = input;
 
     if (isEmpty(value)) {
@@ -46,8 +61,8 @@ export default class AuthChecker {
   }
 
   checkPWConfirmInput() {
-    const { input, errorMsgNode } = this.#nodes.pwConfirm;
-    const password = this.#nodes.password.input.value;
+    const { input, errorMsgNode } = this.#pwConfirm;
+    const password = this.#password.input.value;
     const pwConfirm = input.value;
 
     if (!isEqualString(password, pwConfirm)) {
@@ -56,27 +71,27 @@ export default class AuthChecker {
   }
 
   updateLoginBtn() {
-    const email = this.#nodes.email.input.value;
-    const password = this.#nodes.password.input.value;
+    const email = this.#email.input.value;
+    const password = this.#password.input.value;
 
     const emailValid = !isEmpty(email) && isValidEmail(email);
     const passwordValid = !isEmpty(password) && isValidPassword(password);
 
-    this.#nodes.submitBtn.disabled = !(emailValid && passwordValid);
+    this.#submitBtn.disabled = !(emailValid && passwordValid);
   }
 
   updateSignupBtn() {
-    const email = this.#nodes.email.input.value;
-    const password = this.#nodes.password.input.value;
-    const username = this.#nodes.username.input.value;
-    const pwConfirm = this.#nodes.pwConfirm.input.value;
+    const email = this.#email.input.value;
+    const password = this.#password.input.value;
+    const username = this.#username.input.value;
+    const pwConfirm = this.#pwConfirm.input.value;
 
     const emailValid = !isEmpty(email) && isValidEmail(email);
     const passwordValid = !isEmpty(password) && isValidPassword(password);
     const usernameValid = !isEmpty(username);
     const pwConfirmValid = isEqualString(password, pwConfirm);
 
-    this.#nodes.submitBtn.disabled = !(
+    this.#submitBtn.disabled = !(
       emailValid &&
       passwordValid &&
       usernameValid &&

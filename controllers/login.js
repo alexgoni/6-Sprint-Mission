@@ -1,6 +1,5 @@
 import AuthChecker from "../modules/core/AuthChecker.js";
 import toggleIcon from "../modules/lib/toggleIcon.js";
-import AuthStore from "../modules/DB/AuthStore.js";
 
 const loginForm = document.querySelector(".login-form");
 const emailInput = document.querySelector("#email");
@@ -21,10 +20,8 @@ const password = {
 };
 
 const nodes = { email, password, submitBtn };
-const store = new AuthStore("login");
-store.saveDOMNodes = nodes;
-
-const authChecker = new AuthChecker(store);
+const authChecker = new AuthChecker();
+authChecker.saveDOMNodes = nodes;
 
 emailInput.addEventListener("focusout", () => {
   authChecker.checkEmailInput();
