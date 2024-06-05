@@ -1,7 +1,7 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Article, DataFormat } from "@/@types/api_response";
-import Button from "@/components/commons/Button";
-import Input from "@/components/commons/Input";
+import { LinkButton } from "@/components/commons/Button";
+import { SearchInput } from "@/components/commons/Input";
 import Dropdown from "@/components/commons/Dropdown";
 import Pagination from "@/components/commons/Pagination";
 import useAxiosFetch from "@/hooks/useAxiosFetch";
@@ -37,8 +37,7 @@ export default function ArticleList({
   const handleOrder = (e: MouseEvent<HTMLButtonElement>) => {
     const { name } = e.target as HTMLButtonElement;
 
-    if (name === "sort-by-recent") setCurrentOrder(SortTypeAtUI.Recent);
-    if (name === "sort-by-like") setCurrentOrder(SortTypeAtUI.Like);
+    setCurrentOrder(SortTypeAtUI[name as keyof typeof SortTypeAtUI]);
   };
 
   const handlePageChange = (targetPage: number) => {
@@ -72,11 +71,11 @@ export default function ArticleList({
     <div className="mt-10">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-cool-gray-900">게시글</h1>
-        <Button.Link href="/boards/write">글쓰기</Button.Link>
+        <LinkButton href="/boards/write">글쓰기</LinkButton>
       </div>
 
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-6 md:gap-4">
-        <Input.Search
+        <SearchInput
           value={keyword}
           placeholder="검색할 상품을 입력해주세요"
           onChange={handleInputChange}

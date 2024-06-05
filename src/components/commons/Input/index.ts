@@ -1,7 +1,2 @@
-import SearchInput from "./SearchInput";
-
-const Input = {
-  Search: SearchInput,
-};
-
-export default Input;
+/* eslint-disable import/prefer-default-export */
+export { default as SearchInput } from "./SearchInput";

@@ -47,7 +47,7 @@ export default function OrderDropdown({ currentOrder, handleOrder }: Props) {
       <div className="parent dropdown-content z-dropdown w-[130px] rounded-xl bg-white text-center shadow *:cursor-pointer *:border-b *:border-gray-200 *:py-[9px]">
         <button
           type="button"
-          name="sort-by-recent"
+          name="Recent"
           onClick={handleOrder}
           className="w-full hover:rounded-t-lg hover:bg-gray-50"
         >
@@ -55,7 +55,7 @@ export default function OrderDropdown({ currentOrder, handleOrder }: Props) {
         </button>
         <button
           type="button"
-          name="sort-by-like"
+          name="Like"
           onClick={handleOrder}
           className="w-full border-none hover:rounded-b-lg hover:bg-gray-50"
         >

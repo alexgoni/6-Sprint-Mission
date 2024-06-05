@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Button from "@/components/commons/Button";
+import { LinkButton } from "@/components/commons/Button";
 import useDeviceState from "@/hooks/useDeviceState";
 import Device from "@/@types/device";
 
@@ -47,7 +47,7 @@ export default function Navbar() {
         </Link>
       </div>
 
-      <Button.Link href="/login">로그인</Button.Link>
+      <LinkButton href="/login">로그인</LinkButton>
     </nav>
   );
 }
