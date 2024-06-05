@@ -1,15 +1,12 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import { Article, DataFormat } from "@/@types/api_response";
+import { useEffect, useState } from "react";
+import type { MouseEvent, ChangeEvent } from "react";
+import type { Article, DataFormat } from "@pandamarket-api";
 import { LinkButton } from "@/components/commons/Button";
 import { SearchInput } from "@/components/commons/Input";
 import Dropdown from "@/components/commons/Dropdown";
 import Pagination from "@/components/commons/Pagination";
 import useAxiosFetch from "@/hooks/useAxiosFetch";
-import {
-  SortTypeAtAPI,
-  SortTypeAtUI,
-  SortTypeAtUIValue,
-} from "@/@types/sort_type";
+import { SortTypeAtAPI, SortTypeAtUI } from "@/variables/SortType";
 import ArticlePreview from "./ArticlePreview";
 
 const PAGE_SIZE = 5;
@@ -22,7 +19,7 @@ export default function ArticleList({
   const { list: initialData, totalCount: initialTotalCount } = articleListData;
 
   const [articleList, setArticleList] = useState<Article[]>([...initialData]);
-  const [currentOrder, setCurrentOrder] = useState<SortTypeAtUIValue>(
+  const [currentOrder, setCurrentOrder] = useState<SortTypeAtUI>(
     SortTypeAtUI.Recent,
   );
   const [keyword, setKeyword] = useState("");

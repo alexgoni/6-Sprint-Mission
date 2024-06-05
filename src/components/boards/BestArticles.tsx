@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import type { Article, DataFormat } from "@pandamarket-api";
 import useDeviceState from "@/hooks/useDeviceState";
-import { Article, DataFormat } from "@/@types/api_response";
-import Device from "@/@types/device";
+import Device from "@/variables/Device";
+
 import ArticleCard from "./ArticleCard";
 
 export default function BestArticles({

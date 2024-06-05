@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { LinkButton } from "@/components/commons/Button";
 import useDeviceState from "@/hooks/useDeviceState";
-import Device from "@/@types/device";
+import Device from "@/variables/Device";
 
 export default function Navbar() {
   const router = useRouter();

@@ -1,13 +1,12 @@
 import { MouseEvent } from "react";
 import Image from "next/image";
 import classNames from "classnames";
-import { SortTypeAtUI, SortTypeAtUIValue } from "@/@types/sort_type";
+import Device from "@/variables/Device";
 import useDeviceState from "@/hooks/useDeviceState";
-import { QueryString } from "@/@types/api_response";
-import Device from "@/@types/device";
+import { SortTypeAtUI } from "@/variables/SortType";
 
 interface Props {
-  currentOrder: SortTypeAtUIValue | QueryString;
+  currentOrder: SortTypeAtUI;
   handleOrder: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 

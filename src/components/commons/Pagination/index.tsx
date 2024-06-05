@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import Image from "next/image";
 import classNames from "classnames";
-import { QueryString } from "@/@types/api_response";
+import { QueryString } from "@pandamarket-api";
 
 interface PageButtonProps {
   children: ReactNode;

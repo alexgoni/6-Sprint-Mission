@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Article } from "@/@types/api_response";
+import type { Article } from "@pandamarket-api";
 import { formatDate } from "@/libs/date";
 
 export default function ArticlePreview({ data }: { data: Article }) {
