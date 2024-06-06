@@ -25,8 +25,16 @@ export function LoginForm() {
     if (name === "password") setUser((prev) => ({ ...prev, password: value }));
   };
 
-  const handleSubmit = () => {
-    router.push("/items");
+  const handleSubmit = async () => {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...user }),
+    });
+
+    if (res.ok) router.push("/items");
   };
 
   useEffect(() => {
@@ -120,8 +128,16 @@ export function SignupForm() {
     }
   };
 
-  const handleSubmit = () => {
-    router.push("/login");
+  const handleSubmit = async () => {
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...info }),
+    });
+
+    if (res.ok) router.push("/login");
   };
 
   useEffect(() => {

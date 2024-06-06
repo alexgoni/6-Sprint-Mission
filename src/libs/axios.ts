@@ -10,9 +10,9 @@ const axiosInstance = axios.create({
 
 export default axiosInstance;
 
-type AxiosRequester = <T>(
+type AxiosRequester = <T, U = T>(
   options: AxiosRequestConfig<T>,
-) => Promise<AxiosResponse<T>>;
+) => Promise<AxiosResponse<U>>;
 
 export const axiosRequester: AxiosRequester = async (options) => {
   const result = await axiosInstance({ ...options });
