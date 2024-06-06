@@ -4,14 +4,10 @@ import Link from "next/link";
 interface Props {
   children: ReactNode;
   href: string;
-  roundness?: "sm" | "lg" | "xl";
+  round?: "sm" | "lg" | "xl";
 }
 
-export default function LinkButton({
-  children,
-  href,
-  roundness = "lg",
-}: Props) {
+export default function LinkButton({ children, href, round = "lg" }: Props) {
   return (
     <Link
       href={href}

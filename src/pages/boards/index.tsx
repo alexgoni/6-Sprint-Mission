@@ -1,8 +1,7 @@
 import type { Article, DataFormat } from "@pandamarket-api";
 import Navbar from "@/components/commons/Navbar";
 import { MainLayout } from "@/components/commons/Layout";
-import BestArticles from "@/components/boards/BestArticles";
-import ArticleList from "@/components/boards/ArticleList";
+import { ArticleList, BestArticles } from "@/components/boards";
 import axios from "@/libs/axios";
 
 export default function FreeBoard({
