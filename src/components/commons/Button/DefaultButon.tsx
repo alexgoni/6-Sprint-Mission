@@ -1,8 +1,9 @@
 import { ReactNode } from "react";
+import { Size } from "@size";
 
 interface Props {
   children: ReactNode;
-  round?: "sm" | "lg" | "xl";
+  round?: Size;
   onClick?: () => void;
 }
 

@@ -4,7 +4,7 @@ declare module "@pandamarket-api" {
     id: number;
   }
 
-  export interface Article {
+  interface Article {
     updatedAt: string;
     createdAt: string;
     likeCount: number;

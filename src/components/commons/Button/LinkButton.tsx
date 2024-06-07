@@ -1,10 +1,11 @@
 import { ReactNode } from "react";
 import Link from "next/link";
+import { Size } from "@size";
 
 interface Props {
   children: ReactNode;
   href: string;
-  round?: "sm" | "lg" | "xl";
+  round?: Size;
 }
 
 export default function LinkButton({ children, href, round = "lg" }: Props) {

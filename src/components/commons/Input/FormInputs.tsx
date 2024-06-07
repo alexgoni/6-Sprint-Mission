@@ -1,6 +1,7 @@
-import { InputHTMLAttributes, useState } from "react";
+import { InputHTMLAttributes, TextareaHTMLAttributes, useState } from "react";
 import Image from "next/image";
 import classNames from "classnames";
+import { Size } from "@size";
 
 interface AuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   error: boolean;
@@ -63,4 +64,22 @@ export function PWInput({ error, ...args }: AuthInputProps) {
       />
     </div>
   );
+}
+
+interface TextareaInputProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  size: Size;
+}
+
+export function TextareaInput({ size, ...args }: TextareaInputProps) {
+  const classnames = classNames(
+    "w-full rounded-xl border-none  bg-cool-gray-300 px-6 py-4 outline-none placeholder:text-cool-gray-400 focus:border-2 focus:border-main-blue",
+    {
+      "h-[104px]": size === "sm",
+      "h-[200px]": size === "lg",
+      "h-[282px]": size === "xl",
+    },
+  );
+
+  return <textarea {...args} required className={classnames} />;
 }

@@ -68,7 +68,7 @@ export default function ArticleList({
     <div className="mt-10">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-cool-gray-900">게시글</h1>
-        <LinkButton href="/boards/write">글쓰기</LinkButton>
+        <LinkButton href="/addboard">글쓰기</LinkButton>
       </div>
 
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-6 md:gap-4">

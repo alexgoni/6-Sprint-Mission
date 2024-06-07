@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
 import classNames from "classnames";
+import { Size } from "@size";
 
 interface Props {
   isActive: boolean;
   children: ReactNode;
   handleSubmit: () => void;
-  round?: "lg" | "xl";
+  round?: Size;
 }
 
 export default function SubmitButton({
