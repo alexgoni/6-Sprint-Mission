@@ -73,7 +73,7 @@ interface TextareaInputProps
 
 export function TextareaInput({ size, ...args }: TextareaInputProps) {
   const classnames = classNames(
-    "w-full rounded-xl border-none  bg-cool-gray-300 px-6 py-4 outline-none placeholder:text-cool-gray-400 focus:border-2 focus:border-main-blue",
+    "w-full rounded-xl border-none  bg-cool-gray-300 px-6 py-4 outline-none placeholder:text-cool-gray-400 focus:border-2 focus:border-main-blue resize-none",
     {
       "h-[104px]": size === "sm",
       "h-[200px]": size === "lg",
