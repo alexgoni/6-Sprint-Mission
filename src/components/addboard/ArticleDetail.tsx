@@ -154,9 +154,23 @@ export function ArticleComment({ id }: { id: string | string[] | undefined }) {
       </div>
 
       <div className="mt-4 md:mt-6">
-        {commentList.map((data) => (
-          <Comment key={data.id} data={data} />
-        ))}
+        {commentList.length > 0 ? (
+          commentList.map((data) => <Comment key={data.id} data={data} />)
+        ) : (
+          <div className="flex flex-col items-center justify-center">
+            <Image
+              src="/images/Img_reply_empty.png"
+              alt="empty"
+              width={140}
+              height={140}
+            />
+            <span className="text-center text-cool-gray-400">
+              아직 댓글이 없어요,
+              <br />
+              지금 댓글을 달아보세요!
+            </span>
+          </div>
+        )}
       </div>
     </>
   );
@@ -164,7 +178,7 @@ export function ArticleComment({ id }: { id: string | string[] | undefined }) {
 
 export function GoBackButton() {
   return (
-    <div className="mt-6 flex justify-center">
+    <div className="mt-10 flex justify-center">
       <LinkButton href="/boards" round="xl">
         <div className="flex items-center gap-[10px] px-4">
           <span>목록으로 돌아가기</span>
