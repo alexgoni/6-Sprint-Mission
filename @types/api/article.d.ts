@@ -15,4 +15,8 @@ declare module "@pandamarket-api" {
     content: string;
     image?: string;
   }
+
+  interface ImageResponse {
+    url: string;
+  }
 }

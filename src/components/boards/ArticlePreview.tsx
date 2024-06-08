@@ -12,13 +12,12 @@ export default function ArticlePreview({ data }: { data: Article }) {
         <div className="flex h-[72px] justify-between gap-2">
           <h1 className="text-lg font-semibold leading-5">{title}</h1>
           {image && (
-            <div className="flex size-[72px] flex-shrink-0 items-center justify-center rounded-lg border-[0.75px] border-[#e5e7eb] bg-white p-3">
+            <div className="relative flex size-[72px] flex-shrink-0 items-center justify-center rounded-lg border-[0.75px] border-[#e5e7eb] bg-white">
               <Image
                 src={image}
                 alt="test"
-                width={48}
-                height={48}
-                className="object-cover"
+                fill
+                className="absolute rounded-lg object-cover p-3"
               />
             </div>
           )}

@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Article, ArticleRequestBody } from "@pandamarket-api";
+import { Article, ArticleRequestBody, ImageResponse } from "@pandamarket-api";
 import { SubmitButton } from "@/components/commons/Button";
 import { TextInput, TextareaInput } from "@/components/commons/Input";
 import ImageInput from "@/components/commons/Input/ImageInput";
@@ -8,19 +8,26 @@ import useDeviceState from "@/hooks/useDeviceState";
 import useAxiosFetch from "@/hooks/useAxiosFetch";
 import getCookie from "@/libs/cookie";
 
+interface InputValue {
+  title: string;
+  content: string;
+  img: File | null;
+}
+
 export default function AddArticleForm() {
   const [isActive, setIsActive] = useState(false);
 
-  const [inputValue, setInputValue] = useState({
+  const [inputValue, setInputValue] = useState<InputValue>({
     title: "",
     content: "",
+    img: null,
   });
 
   const router = useRouter();
   const deviceState = useDeviceState();
   const { isLoading, error, axiosFetch } = useAxiosFetch();
 
-  const handleChange = (
+  const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
@@ -31,8 +38,31 @@ export default function AddArticleForm() {
     }
   };
 
+  const handleImageChange = (file: File | null) => {
+    setInputValue((prev) => ({ ...prev, img: file }));
+  };
+
   const handleSubmit = async () => {
-    const res = await axiosFetch<ArticleRequestBody, Article>({
+    let formattedImg = null;
+
+    if (inputValue.img) {
+      const formData = new FormData();
+      formData.append("image", inputValue.img);
+
+      const imgRes = await axiosFetch<FormData, ImageResponse>({
+        method: "POST",
+        url: "/images/upload",
+        headers: {
+          Authorization: `Bearer ${getCookie("accessToken")}`,
+          "Content-Type": "multipart/form-data",
+        },
+        data: formData,
+      });
+
+      formattedImg = imgRes.data.url;
+    }
+
+    const postRes = await axiosFetch<ArticleRequestBody, Article>({
       method: "POST",
       url: "/articles",
       headers: {
@@ -41,11 +71,12 @@ export default function AddArticleForm() {
       data: {
         title: inputValue.title,
         content: inputValue.content,
+        ...(formattedImg && { image: formattedImg }),
       },
     });
 
-    if ([200, 201].includes(res.status)) {
-      router.push(`/addboard/${res.data.id}`);
+    if ([200, 201].includes(postRes.status)) {
+      router.push(`/addboard/${postRes.data.id}`);
     }
   };
 
@@ -70,7 +101,7 @@ export default function AddArticleForm() {
         <TextInput
           name="title"
           value={inputValue.title}
-          onChange={handleChange}
+          onChange={handleInputChange}
           placeholder="제목을 입력해주세요"
         />
 
@@ -81,14 +112,14 @@ export default function AddArticleForm() {
           name="content"
           size={deviceState === "pc" ? "xl" : "lg"}
           value={inputValue.content}
-          onChange={handleChange}
+          onChange={handleInputChange}
           placeholder="내용을 입력해주세요"
         />
 
         <h1 className="mb-3 mt-6 text-sm font-bold text-cool-gray-800 md:text-lg">
           이미지
         </h1>
-        <ImageInput handleImgChange={(file: File | null) => {}} />
+        <ImageInput handleImgChange={handleImageChange} />
       </form>
     </>
   );

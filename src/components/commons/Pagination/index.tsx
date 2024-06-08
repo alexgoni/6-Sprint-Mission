@@ -62,7 +62,7 @@ export default function Pagination({
           height={16}
         />
       </PageButton>
-      {Array.from({ length: totalPages }, (_, idx) => (
+      {Array.from({ length: totalPages > 5 ? 5 : totalPages }, (_, idx) => (
         <PageButton
           key={idx}
           isFocus={idx + 1 === currentPage}

@@ -48,7 +48,7 @@ export function ArticleContent({ id }: { id: string | string[] | undefined }) {
         <div className="my-4 flex items-center">
           <div className="mr-4 flex items-center gap-2">
             <Image
-              src={data?.image ?? "/images/profile.svg"}
+              src={data?.writer.image ?? "/images/profile.svg"}
               alt="profile"
               width={24}
               height={24}
@@ -77,7 +77,12 @@ export function ArticleContent({ id }: { id: string | string[] | undefined }) {
         </div>
       </header>
 
-      <main className="mb-10 mt-4 md:mb-[60px]">{data?.content}</main>
+      <main className="mb-10 mt-4 md:mb-[60px]">
+        {data?.image && (
+          <Image src={data?.image} alt="content" width={200} height={200} />
+        )}
+        {data?.content}
+      </main>
     </>
   );
 }
