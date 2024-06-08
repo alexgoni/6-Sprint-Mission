@@ -7,7 +7,7 @@ export default function ArticlePreview({ data }: { data: Article }) {
   const { id, title, image, writer, likeCount, createdAt } = data;
 
   return (
-    <Link href={`/boards/${id}`}>
+    <Link href={`/addboard/${id}`}>
       <div className=" mb-6 w-full border-b pb-6">
         <div className="flex h-[72px] justify-between gap-2">
           <h1 className="text-lg font-semibold leading-5">{title}</h1>

@@ -1,9 +1,4 @@
 declare module "@pandamarket-api" {
-  interface Writer {
-    nickname: string;
-    id: number;
-  }
-
   interface Article {
     updatedAt: string;
     createdAt: string;
@@ -13,5 +8,11 @@ declare module "@pandamarket-api" {
     content: string;
     title: string;
     id: number;
+  }
+
+  interface ArticleRequestBody {
+    title: string;
+    content: string;
+    image?: string;
   }
 }

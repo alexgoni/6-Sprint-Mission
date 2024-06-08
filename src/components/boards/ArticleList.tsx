@@ -86,10 +86,10 @@ export default function ArticleList({
         ))}
       </div>
 
-      {totalCount > 0 && (
+      {totalCount! > 0 && (
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(totalCount / PAGE_SIZE)}
+          totalPages={Math.ceil(totalCount! / PAGE_SIZE)}
           handlePageChange={handlePageChange}
         />
       )}

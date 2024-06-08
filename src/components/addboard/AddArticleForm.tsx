@@ -1,8 +1,12 @@
 import { ChangeEvent, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { Article, ArticleRequestBody } from "@pandamarket-api";
 import { SubmitButton } from "@/components/commons/Button";
 import { TextInput, TextareaInput } from "@/components/commons/Input";
 import ImageInput from "@/components/commons/Input/ImageInput";
 import useDeviceState from "@/hooks/useDeviceState";
+import useAxiosFetch from "@/hooks/useAxiosFetch";
+import getCookie from "@/libs/cookie";
 
 export default function AddArticleForm() {
   const [isActive, setIsActive] = useState(false);
@@ -12,7 +16,9 @@ export default function AddArticleForm() {
     content: "",
   });
 
+  const router = useRouter();
   const deviceState = useDeviceState();
+  const { isLoading, error, axiosFetch } = useAxiosFetch();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -25,6 +31,24 @@ export default function AddArticleForm() {
     }
   };
 
+  const handleSubmit = async () => {
+    const res = await axiosFetch<ArticleRequestBody, Article>({
+      method: "POST",
+      url: "/articles",
+      headers: {
+        Authorization: `Bearer ${getCookie("accessToken")}`,
+      },
+      data: {
+        title: inputValue.title,
+        content: inputValue.content,
+      },
+    });
+
+    if ([200, 201].includes(res.status)) {
+      router.push(`/addboard/${res.data.id}`);
+    }
+  };
+
   useEffect(() => {
     if (inputValue.title && inputValue.content) setIsActive(true);
     else setIsActive(false);
@@ -34,7 +58,7 @@ export default function AddArticleForm() {
     <>
       <header className="mt-4 flex items-center justify-between xl:mt-6">
         <h1 className="text-xl font-bold text-cool-gray-800">게시글 쓰기</h1>
-        <SubmitButton isActive={isActive} handleSubmit={() => {}}>
+        <SubmitButton isActive={isActive} handleSubmit={handleSubmit}>
           등록
         </SubmitButton>
       </header>
