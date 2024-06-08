@@ -18,6 +18,14 @@ declare module "@pandamarket-api" {
     passwordConfirmation: string;
   }
 
+  interface RefreshRequestBody {
+    refreshToken: string;
+  }
+
+  interface RefreshResponse {
+    accessToken: string;
+  }
+
   interface Auth {
     user: User;
     accessToken: string;
