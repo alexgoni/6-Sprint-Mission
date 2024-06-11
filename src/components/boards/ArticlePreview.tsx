@@ -1,24 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Article } from "@/@types/api_response";
+import type { Article } from "@pandamarket-api";
 import { formatDate } from "@/libs/date";
 
 export default function ArticlePreview({ data }: { data: Article }) {
   const { id, title, image, writer, likeCount, createdAt } = data;
 
   return (
-    <Link href={`/boards/${id}`}>
+    <Link href={`/addboard/${id}`}>
       <div className=" mb-6 w-full border-b pb-6">
         <div className="flex h-[72px] justify-between gap-2">
           <h1 className="text-lg font-semibold leading-5">{title}</h1>
           {image && (
-            <div className="flex size-[72px] flex-shrink-0 items-center justify-center rounded-lg border-[0.75px] border-[#e5e7eb] bg-white p-3">
+            <div className="relative flex size-[72px] flex-shrink-0 items-center justify-center rounded-lg border-[0.75px] border-[#e5e7eb] bg-white">
               <Image
                 src={image}
                 alt="test"
-                width={48}
-                height={48}
-                className="object-cover"
+                fill
+                className="absolute rounded-lg object-cover p-3"
               />
             </div>
           )}

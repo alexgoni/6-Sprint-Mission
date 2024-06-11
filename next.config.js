@@ -9,6 +9,12 @@ const nextConfig = {
         port: "",
         pathname: "/Sprint_Mission/**",
       },
+      {
+        protocol: "https",
+        hostname: "example.com",
+        port: "",
+        pathname: "/",
+      },
     ],
   },
   webpack: (config) => {

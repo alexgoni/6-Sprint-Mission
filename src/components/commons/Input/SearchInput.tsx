@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 import Image from "next/image";
-import { QueryString } from "@/@types/api_response";
+import type { QueryString } from "@pandamarket-api";
 
 interface Props {
   value: QueryString;

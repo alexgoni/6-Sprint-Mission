@@ -1,14 +1,15 @@
 import { ReactNode } from "react";
+import { Size } from "@size";
 
 interface Props {
   children: ReactNode;
-  roundness?: "sm" | "lg" | "xl";
+  round?: Size;
   onClick?: () => void;
 }
 
 export default function DefaultButton({
   children,
-  roundness = "lg",
+  round = "lg",
   onClick,
 }: Props) {
   return (

@@ -15,6 +15,9 @@ const config: Config = {
         dropdown: "999",
         nav: "9999",
       },
+      gridTemplateColumns: {
+        "2-auto": "repeat(2, auto)",
+      },
       colors: {
         "main-blue": "#3692ff",
         "dark-main-blue": "#2f80ed",

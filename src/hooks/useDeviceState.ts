@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import Device, { DeviceValue } from "@/@types/device";
+import Device from "@/variables/Device";
 
 const MIN_TABLET_WIDTH = 768;
 const MIN_DESKTOP_WIDTH = 1280;
 
 function getDeviceState() {
+  if (typeof window === "undefined") return Device.Mobile;
+
   const width = window.innerWidth;
 
   if (width < MIN_TABLET_WIDTH) return Device.Mobile;
@@ -13,7 +15,7 @@ function getDeviceState() {
 }
 
 export default function useDeviceState() {
-  const [deviceState, setDeviceState] = useState<DeviceValue>();
+  const [deviceState, setDeviceState] = useState<Device>(Device.Mobile);
 
   useEffect(() => {
     function handleResize() {

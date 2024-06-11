@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Article } from "@/@types/api_response";
+import type { Article } from "@pandamarket-api";
 import { formatDate } from "@/libs/date";
 
 export default function ArticleCard({ data }: { data: Article }) {
   const { id, title, image, writer, likeCount, createdAt } = data;
 
   return (
-    <Link href={`/boards/${id}`}>
+    <Link href={`/addboard/${id}`}>
       <div className="h-[167px] w-full min-w-[292px] rounded-lg bg-cool-gray-200 px-6 pb-4">
         <div className="flex h-[30px] w-[102px] items-center justify-center gap-1 rounded-b-[32px] bg-main-blue">
           <Image

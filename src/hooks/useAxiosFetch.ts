@@ -2,20 +2,18 @@ import { useState } from "react";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { axiosRequester } from "@/libs/axios";
 
-type AxiosFetch = <T>(
-  options: AxiosRequestConfig<T>,
-) => Promise<AxiosResponse<T>>;
-
 export default function useAxiosFetch() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<null | unknown>(null);
 
-  const axiosFetch: AxiosFetch = async (options) => {
+  const axiosFetch = async <T, U = T>(
+    options: AxiosRequestConfig<T>,
+  ): Promise<AxiosResponse<U>> => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await axiosRequester({ ...options });
+      const response = await axiosRequester<T, U>({ ...options });
       return response;
     } catch (err: unknown) {
       setError(err);

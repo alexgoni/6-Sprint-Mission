@@ -1,8 +1,7 @@
+import type { Article, DataFormat } from "@pandamarket-api";
 import Navbar from "@/components/commons/Navbar";
-import Layout from "@/components/commons/Layout";
-import BestArticles from "@/components/boards/BestArticles";
-import ArticleList from "@/components/boards/ArticleList";
-import { Article, DataFormat } from "@/@types/api_response";
+import { MainLayout } from "@/components/commons/Layout";
+import { ArticleList, BestArticles } from "@/components/boards";
 import axios from "@/libs/axios";
 
 export default function FreeBoard({
@@ -15,10 +14,10 @@ export default function FreeBoard({
   return (
     <>
       <Navbar />
-      <Layout.Main>
+      <MainLayout>
         <BestArticles bestArticlesData={bestArticlesData} />
         <ArticleList articleListData={articleListData} />
-      </Layout.Main>
+      </MainLayout>
     </>
   );
 }

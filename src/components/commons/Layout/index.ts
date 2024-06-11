@@ -1,7 +1,2 @@
-import MainLayout from "./MainLayout";
-
-const Layout = {
-  Main: MainLayout,
-};
-
-export default Layout;
+// eslint-disable-next-line import/prefer-default-export
+export { default as MainLayout } from "./MainLayout";

@@ -1,7 +1,2 @@
-import SearchInput from "./SearchInput";
-
-const Input = {
-  Search: SearchInput,
-};
-
-export default Input;
+export { default as SearchInput } from "./SearchInput";
+export { TextInput, EmailInput, PWInput, TextareaInput } from "./FormInputs";
