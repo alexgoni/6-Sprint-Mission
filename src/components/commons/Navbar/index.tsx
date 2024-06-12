@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -8,6 +9,7 @@ import Device from "@/variables/Device";
 import getCookie from "@/libs/cookie";
 
 export default function Navbar() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
   const { pathname } = router;
   const deviceState = useDeviceState();
@@ -20,6 +22,11 @@ export default function Navbar() {
   const itemsLinkClassnames = classNames({
     "text-main-blue": pathname.includes("/items"),
   });
+
+  useEffect(() => {
+    const accessToken = getCookie("accessToken");
+    setIsLoggedIn(!!accessToken);
+  }, []);
 
   return (
     <nav className="sticky top-0 z-nav flex h-[70px] items-center border-b-[1px] border-b-[#dfdfdf] bg-white px-4 py-[10px] md:px-[34px] xl:px-[200px]">
@@ -52,13 +59,13 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {getCookie("accessToken") ? (
+      {isLoggedIn ? (
         <Image
-          src="/images/profile.svg"
+          src="/images/ic_profile.svg"
           alt="profile"
           width={40}
           height={40}
-          className="size-8 rounded-full object-cover"
+          className="size-10 cursor-pointer rounded-full object-cover"
         />
       ) : (
         <LinkButton href="/login">로그인</LinkButton>

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useCallback } from "react";
 import Image from "next/image";
 import classNames from "classnames";
 import { QueryString } from "@pandamarket-api";
@@ -48,9 +48,30 @@ export default function Pagination({
   };
 
   const handleRightClick = () => {
-    if (currentPage === totalPages) return;
+    if (Number(currentPage) === totalPages) return;
     handlePageChange(Number(currentPage) + 1);
   };
+
+  const getPageNumbers = useCallback(() => {
+    const pages = [];
+    const MAXPAGE_TO_SHOW = 5;
+    let startPage = Math.max(
+      1,
+      Number(currentPage) - Math.floor(MAXPAGE_TO_SHOW / 2),
+    );
+    const endPage = Math.min(totalPages, startPage + MAXPAGE_TO_SHOW - 1);
+
+    if (endPage - startPage < MAXPAGE_TO_SHOW - 1) {
+      startPage = Math.max(1, endPage - MAXPAGE_TO_SHOW + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i += 1) {
+      pages.push(i);
+    }
+    return pages;
+  }, [currentPage, totalPages]);
+
+  const pageNumbers = getPageNumbers();
 
   return (
     <div className="mt-10 flex items-center justify-center gap-1">
@@ -62,13 +83,13 @@ export default function Pagination({
           height={16}
         />
       </PageButton>
-      {Array.from({ length: totalPages > 5 ? 5 : totalPages }, (_, idx) => (
+      {pageNumbers.map((page) => (
         <PageButton
-          key={idx}
-          isFocus={idx + 1 === currentPage}
-          onClick={() => handleButtonClick(idx + 1)}
+          key={page}
+          isFocus={page === Number(currentPage)}
+          onClick={() => handleButtonClick(page)}
         >
-          {idx + 1}
+          {page}
         </PageButton>
       ))}
       <PageButton onClick={handleRightClick}>
