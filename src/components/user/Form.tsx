@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { EmailInput, PWInput, TextInput } from "@/components/commons/Input";
 import { SubmitButton } from "@/components/commons/Button";
+import { loginRequest, signupRequest } from "@/apis/auth";
 
 const EMAIL_REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -26,15 +27,8 @@ export function LoginForm() {
   };
 
   const handleSubmit = async () => {
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...user }),
-    });
-
-    if (res.ok) router.push("/items");
+    const res = await loginRequest(user);
+    if (res) router.push("/items");
   };
 
   useEffect(() => {
@@ -129,15 +123,8 @@ export function SignupForm() {
   };
 
   const handleSubmit = async () => {
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...info }),
-    });
-
-    if (res.ok) router.push("/login");
+    const res = await signupRequest(info);
+    if (res) router.push("/login");
   };
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-export default function getCookie(name: string) {
+export function getCookie(name: string) {
   if (typeof window === "undefined") return null;
 
   const cookieString = document.cookie;
@@ -15,4 +15,10 @@ export default function getCookie(name: string) {
   }
 
   return null;
+}
+
+export function setCookie(name: string, value: string, maxAgeSeconds: number) {
+  if (typeof window === "undefined") return;
+
+  document.cookie = `${name}=${value}; max-age=${maxAgeSeconds}; path=/; SameSite=Strict`;
 }

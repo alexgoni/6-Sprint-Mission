@@ -6,7 +6,7 @@ import classNames from "classnames";
 import { LinkButton } from "@/components/commons/Button";
 import useDeviceState from "@/hooks/useDeviceState";
 import Device from "@/variables/Device";
-import getCookie from "@/libs/cookie";
+import { getCookie } from "@/libs/cookie";
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -60,13 +60,15 @@ export default function Navbar() {
       </div>
 
       {isLoggedIn ? (
-        <Image
-          src="/images/ic_profile.svg"
-          alt="profile"
-          width={40}
-          height={40}
-          className="size-10 cursor-pointer rounded-full object-cover"
-        />
+        <Link href="/login">
+          <Image
+            src="/images/ic_profile.svg"
+            alt="profile"
+            width={40}
+            height={40}
+            className="size-10 rounded-full object-cover"
+          />
+        </Link>
       ) : (
         <LinkButton href="/login">로그인</LinkButton>
       )}

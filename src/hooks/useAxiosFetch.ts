@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
-import { axiosRequester } from "@/libs/axios";
+import axiosRequester from "@/apis/axios";
 
 export default function useAxiosFetch() {
   const [isLoading, setIsLoading] = useState(false);

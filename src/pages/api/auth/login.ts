@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { LoginRequestBody, Auth } from "@pandamarket-api";
-import { axiosRequester } from "@/libs/axios";
+import axiosRequester from "@/apis/axios";
 
 export default async function handler(
   req: NextApiRequest,

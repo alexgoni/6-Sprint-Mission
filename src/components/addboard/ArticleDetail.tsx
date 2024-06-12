@@ -10,9 +10,9 @@ import { LinkButton, SubmitButton } from "@/components/commons/Button";
 import Comment from "@/components/commons/Comment";
 import { TextareaInput } from "@/components/commons/Input";
 import useAxiosFetch from "@/hooks/useAxiosFetch";
-import { formatDate } from "@/libs/date";
-import getCookie from "@/libs/cookie";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import { formatDate } from "@/libs/date";
+import { getCookie } from "@/libs/cookie";
 
 export function ArticleContent({ id }: { id: string | string[] | undefined }) {
   const [data, setData] = useState<Article>();

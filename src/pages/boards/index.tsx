@@ -2,7 +2,7 @@ import type { Article, DataFormat } from "@pandamarket-api";
 import Navbar from "@/components/commons/Navbar";
 import { MainLayout } from "@/components/commons/Layout";
 import { ArticleList, BestArticles } from "@/components/boards";
-import axios from "@/libs/axios";
+import axiosRequester from "@/apis/axios";
 
 export default function FreeBoard({
   bestArticlesData,
@@ -27,7 +27,7 @@ const BEST_ARTICLES_MAX_PAGE_SIZE = 3;
 
 export async function getStaticProps() {
   try {
-    const articleListResponse = await axios({
+    const articleListResponse = await axiosRequester({
       url: "/articles",
       params: {
         pageSize: ARTICLE_LIST_PAGE_SIZE,
@@ -36,7 +36,7 @@ export async function getStaticProps() {
 
     const articleListData = articleListResponse?.data;
 
-    const bestArticlesResponse = await axios({
+    const bestArticlesResponse = await axiosRequester({
       url: "/articles",
       params: {
         orderBy: "like",
