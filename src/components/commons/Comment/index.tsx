@@ -12,7 +12,7 @@ export default function Comment({ data }: { data: CommentType }) {
 
       <div className="my-4 grid w-max grid-cols-2-auto grid-rows-2 gap-x-2 md:my-6">
         <Image
-          src={data?.writer?.image ?? "/images/profile.svg"}
+          src={data?.writer?.image ?? "/images/ic_profile.svg"}
           alt="profile"
           width={32}
           height={32}

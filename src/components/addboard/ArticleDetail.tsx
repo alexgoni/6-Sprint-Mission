@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   Article,
@@ -12,6 +12,7 @@ import { TextareaInput } from "@/components/commons/Input";
 import useAxiosFetch from "@/hooks/useAxiosFetch";
 import { formatDate } from "@/libs/date";
 import getCookie from "@/libs/cookie";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 
 export function ArticleContent({ id }: { id: string | string[] | undefined }) {
   const [data, setData] = useState<Article>();
@@ -48,7 +49,7 @@ export function ArticleContent({ id }: { id: string | string[] | undefined }) {
         <div className="my-4 flex items-center">
           <div className="mr-4 flex items-center gap-2">
             <Image
-              src={data?.writer.image ?? "/images/profile.svg"}
+              src={data?.writer.image ?? "/images/ic_profile.svg"}
               alt="profile"
               width={24}
               height={24}
@@ -91,6 +92,9 @@ export function ArticleComment({ id }: { id: string | string[] | undefined }) {
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState<CommentType[]>([]);
   const [isActive, setIsActive] = useState(false);
+  const [cursor, setCursor] = useState<number | null>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const isIntersecting = useIntersectionObserver(sentinelRef);
   const { isLoading, error, axiosFetch } = useAxiosFetch();
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -116,15 +120,22 @@ export function ArticleComment({ id }: { id: string | string[] | undefined }) {
   };
 
   const getCommentList = async () => {
-    // TODO: nextCursor 기반 페이지네이션
     const res = await axiosFetch<DataFormat<CommentType>>({
       url: `/articles/${id}/comments`,
       params: {
         limit: 10,
+        cursor,
       },
     });
 
-    setCommentList(res?.data?.list);
+    if (res.data.nextCursor !== undefined) setCursor(res?.data?.nextCursor);
+    setCommentList((prev) => {
+      const newComments = res.data.list.filter(
+        (newComment) =>
+          !prev.some((prevComment) => prevComment.id === newComment.id),
+      );
+      return [...prev, ...newComments];
+    });
   };
 
   useEffect(() => {
@@ -136,6 +147,10 @@ export function ArticleComment({ id }: { id: string | string[] | undefined }) {
     if (comment) setIsActive(true);
     else setIsActive(false);
   }, [comment]);
+
+  useEffect(() => {
+    if (isIntersecting && cursor) getCommentList();
+  }, [isIntersecting]);
 
   return (
     <>
@@ -163,6 +178,7 @@ export function ArticleComment({ id }: { id: string | string[] | undefined }) {
               alt="empty"
               width={140}
               height={140}
+              priority
             />
             <span className="text-center text-cool-gray-400">
               아직 댓글이 없어요,
@@ -171,6 +187,7 @@ export function ArticleComment({ id }: { id: string | string[] | undefined }) {
             </span>
           </div>
         )}
+        <div ref={sentinelRef} className="h-10 opacity-0" />
       </div>
     </>
   );
@@ -178,7 +195,7 @@ export function ArticleComment({ id }: { id: string | string[] | undefined }) {
 
 export function GoBackButton() {
   return (
-    <div className="mt-10 flex justify-center">
+    <div className="flex justify-center">
       <LinkButton href="/boards" round="xl">
         <div className="flex items-center gap-[10px] px-4">
           <span>목록으로 돌아가기</span>

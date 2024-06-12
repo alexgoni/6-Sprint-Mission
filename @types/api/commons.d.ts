@@ -10,6 +10,6 @@ declare module "@pandamarket-api" {
   interface DataFormat<T> {
     list: T[];
     totalCount?: number;
-    nextCursor?: number;
+    nextCursor?: number | null;
   }
 }
