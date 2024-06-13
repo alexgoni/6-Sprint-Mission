@@ -5,7 +5,7 @@ import Button from "components/Button";
 import mainLogo from "assets/icon/main_logo.svg";
 import kakaoIcon from "assets/icon/ic_kakao.svg";
 import googleIcon from "assets/icon/ic_google.svg";
-import { loginRequest } from "api/auth";
+import { loginRequest, signupRequest } from "api/auth";
 import * as S from "./index.style";
 
 export function AuthLogo() {
@@ -131,8 +131,10 @@ export function SignupForm() {
     }
   };
 
-  const handleSubmit = () => {
-    navigate("/");
+  const handleSubmit = async () => {
+    const res = await signupRequest(info);
+
+    if (res) navigate("/login");
   };
 
   useEffect(() => {

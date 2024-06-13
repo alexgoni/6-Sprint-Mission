@@ -1,4 +1,8 @@
-import type { Auth, LoginRequestBody } from "models/auth";
+import {
+  SignupRequestBody,
+  type Auth,
+  type LoginRequestBody,
+} from "models/auth";
 import axiosRequester from "./axios";
 
 export async function loginRequest(user: { email: string; password: string }) {
@@ -20,6 +24,34 @@ export async function loginRequest(user: { email: string; password: string }) {
     localStorage.setItem("refreshToken", refreshToken);
 
     if (res.status === 200) return res;
+    else return null;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+export async function signupRequest(info: {
+  email: string;
+  nickname: string;
+  password: string;
+  pwConfirm: string;
+}) {
+  const { email, nickname, password, pwConfirm } = info;
+
+  try {
+    const res = await axiosRequester<SignupRequestBody, Auth>({
+      method: "POST",
+      url: "/auth/signUp",
+      data: {
+        email,
+        nickname,
+        password,
+        passwordConfirmation: pwConfirm,
+      },
+    });
+
+    if ([200, 201].includes(res.status)) return res;
     else return null;
   } catch (err) {
     console.error(err);
