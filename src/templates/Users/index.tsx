@@ -1,12 +1,11 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetAtom } from "jotai";
 import Input from "components/Input";
 import Button from "components/Button";
-import { loginState } from "contexts/atoms/users";
 import mainLogo from "assets/icon/main_logo.svg";
 import kakaoIcon from "assets/icon/ic_kakao.svg";
 import googleIcon from "assets/icon/ic_google.svg";
+import { loginRequest } from "api/auth";
 import * as S from "./index.style";
 
 export function AuthLogo() {
@@ -33,7 +32,6 @@ export function LoginForm() {
   });
 
   const navigate = useNavigate();
-  const setLoginState = useSetAtom(loginState);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,9 +40,10 @@ export function LoginForm() {
     if (name === "password") setUser((prev) => ({ ...prev, password: value }));
   };
 
-  const handleSubmit = () => {
-    setLoginState(true);
-    navigate("/items");
+  const handleSubmit = async () => {
+    const res = await loginRequest(user);
+
+    if (res) navigate("/");
   };
 
   useEffect(() => {
@@ -105,7 +104,6 @@ export function LoginForm() {
 }
 
 export function SignupForm() {
-  const navigate = useNavigate();
   const [info, setInfo] = useState({
     email: "",
     nickname: "",
@@ -120,6 +118,8 @@ export function SignupForm() {
     pwConfirm: false,
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -132,7 +132,7 @@ export function SignupForm() {
   };
 
   const handleSubmit = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   useEffect(() => {
