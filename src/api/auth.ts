@@ -1,8 +1,10 @@
+import { toast } from "react-toastify";
 import {
   SignupRequestBody,
   type Auth,
   type LoginRequestBody,
 } from "models/auth";
+import axios from "axios";
 import axiosRequester from "./axios";
 
 export async function loginRequest(user: { email: string; password: string }) {
@@ -23,11 +25,19 @@ export async function loginRequest(user: { email: string; password: string }) {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
 
-    if (res.status === 200) return res;
-    else return null;
+    if ([200, 201].includes(res.status)) {
+      toast.success("로그인에 성공하였습니다.");
+      return res;
+    } else {
+      return null;
+    }
   } catch (err) {
-    console.error(err);
-    return null;
+    if (axios.isAxiosError(err)) {
+      toast.error(err.response?.data.message);
+    } else {
+      console.error(err);
+      return null;
+    }
   }
 }
 
@@ -51,10 +61,18 @@ export async function signupRequest(info: {
       },
     });
 
-    if ([200, 201].includes(res.status)) return res;
-    else return null;
+    if ([200, 201].includes(res.status)) {
+      toast.success("회원가입에 성공하였습니다.");
+      return res;
+    } else {
+      return null;
+    }
   } catch (err) {
-    console.error(err);
-    return null;
+    if (axios.isAxiosError(err)) {
+      toast.error(err.response?.data.message);
+    } else {
+      console.error(err);
+      return null;
+    }
   }
 }

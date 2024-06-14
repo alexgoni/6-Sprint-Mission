@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "components/Input";
 import Button from "components/Button";
@@ -41,9 +41,16 @@ export function LoginForm() {
   };
 
   const handleSubmit = async () => {
+    if (!valid.email || !valid.password) return;
     const res = await loginRequest(user);
 
     if (res) navigate("/");
+  };
+
+  const handleFormEnter = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key !== "Enter") return;
+
+    handleSubmit();
   };
 
   useEffect(() => {
@@ -61,7 +68,7 @@ export function LoginForm() {
   }, [user.email, user.password]);
 
   return (
-    <S.AuthForm>
+    <S.AuthForm onKeyUp={handleFormEnter}>
       <div className="input-block">
         <h1 className="label">이메일</h1>
         <Input.Form.Email
@@ -132,9 +139,16 @@ export function SignupForm() {
   };
 
   const handleSubmit = async () => {
+    if (Object.values(valid).some((v) => !v)) return;
     const res = await signupRequest(info);
 
     if (res) navigate("/login");
+  };
+
+  const handleFormEnter = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key !== "Enter") return;
+
+    handleSubmit();
   };
 
   useEffect(() => {
@@ -161,7 +175,7 @@ export function SignupForm() {
   }, [info.email, info.password, info.nickname, info.pwConfirm]);
 
   return (
-    <S.AuthForm>
+    <S.AuthForm onKeyUp={handleFormEnter}>
       <div className="input-block">
         <h1 className="label">이메일</h1>
         <Input.Form.Email
