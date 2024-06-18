@@ -1,12 +1,11 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSetAtom } from "jotai";
 import Input from "components/Input";
 import Button from "components/Button";
-import { loginState } from "contexts/atoms/users";
 import mainLogo from "assets/icon/main_logo.svg";
 import kakaoIcon from "assets/icon/ic_kakao.svg";
 import googleIcon from "assets/icon/ic_google.svg";
+import { loginRequest, signupRequest } from "api/auth";
 import * as S from "./index.style";
 
 export function AuthLogo() {
@@ -33,7 +32,6 @@ export function LoginForm() {
   });
 
   const navigate = useNavigate();
-  const setLoginState = useSetAtom(loginState);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,9 +40,17 @@ export function LoginForm() {
     if (name === "password") setUser((prev) => ({ ...prev, password: value }));
   };
 
-  const handleSubmit = () => {
-    setLoginState(true);
-    navigate("/items");
+  const handleSubmit = async () => {
+    if (!valid.email || !valid.password) return;
+    const res = await loginRequest(user);
+
+    if (res) navigate("/");
+  };
+
+  const handleFormEnter = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key !== "Enter") return;
+
+    handleSubmit();
   };
 
   useEffect(() => {
@@ -62,7 +68,7 @@ export function LoginForm() {
   }, [user.email, user.password]);
 
   return (
-    <S.AuthForm>
+    <S.AuthForm onKeyUp={handleFormEnter}>
       <div className="input-block">
         <h1 className="label">이메일</h1>
         <Input.Form.Email
@@ -105,7 +111,6 @@ export function LoginForm() {
 }
 
 export function SignupForm() {
-  const navigate = useNavigate();
   const [info, setInfo] = useState({
     email: "",
     nickname: "",
@@ -120,6 +125,8 @@ export function SignupForm() {
     pwConfirm: false,
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -131,8 +138,17 @@ export function SignupForm() {
     }
   };
 
-  const handleSubmit = () => {
-    navigate("/login");
+  const handleSubmit = async () => {
+    if (Object.values(valid).some((v) => !v)) return;
+    const res = await signupRequest(info);
+
+    if (res) navigate("/login");
+  };
+
+  const handleFormEnter = (e: KeyboardEvent<HTMLFormElement>) => {
+    if (e.key !== "Enter") return;
+
+    handleSubmit();
   };
 
   useEffect(() => {
@@ -159,7 +175,7 @@ export function SignupForm() {
   }, [info.email, info.password, info.nickname, info.pwConfirm]);
 
   return (
-    <S.AuthForm>
+    <S.AuthForm onKeyUp={handleFormEnter}>
       <div className="input-block">
         <h1 className="label">이메일</h1>
         <Input.Form.Email
