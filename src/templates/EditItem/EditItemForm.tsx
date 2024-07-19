@@ -7,6 +7,8 @@ import { TagList, Tag } from "components/Tag";
 import postImage from "api/image";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { PostProductPayload, editProduct, getProductDetail } from "api/product";
+import { useAtomValue } from "jotai";
+import { userInfoAtom } from "contexts/atom/user";
 import * as S from "./EditItemForm.style";
 
 export default function EditItemForm() {
@@ -20,6 +22,7 @@ export default function EditItemForm() {
       return getProductDetail(params.productId);
     },
   });
+  const userInfo = useAtomValue(userInfoAtom);
 
   const [imgFile, setImgFile] = useState(data?.images[0] ?? "");
   const [title, setTitle] = useState(data?.name ?? "");
@@ -90,6 +93,10 @@ export default function EditItemForm() {
       setIsActive(false);
     }
   }, [title, description, price, tagList, imgFile]);
+
+  useEffect(() => {
+    if (userInfo?.id !== data?.ownerId) navigate("/items");
+  }, [userInfo, data]);
 
   return (
     <S.EditItemContainer>
