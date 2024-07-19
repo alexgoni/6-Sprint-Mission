@@ -41,7 +41,6 @@ export default function AllProducts() {
         keyword,
       });
     },
-    staleTime: 60 * 1000,
     placeholderData: keepPreviousData,
   });
 

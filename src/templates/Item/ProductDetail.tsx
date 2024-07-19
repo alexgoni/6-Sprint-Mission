@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "components/Button";
 import Input from "components/Input";
 import { Tag, TagList } from "components/Tag";
@@ -12,7 +12,7 @@ import kebabIcon from "assets/icon/ic_kebab.svg";
 import inquiryEmpty from "assets/img/Img_inquiry_empty.svg";
 import backIcon from "assets/icon/ic_back.svg";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProductDetail } from "api/product";
+import { deleteProduct, getProductDetail } from "api/product";
 import { getCommentList, postComment } from "api/comment";
 import { useAtomValue } from "jotai";
 import { userInfoAtom } from "contexts/atom/user";
@@ -33,11 +33,24 @@ export default function ProductDetail() {
 }
 
 function ProductDetailInfo({ productId }: { productId: string }) {
+  const navigate = useNavigate();
   const { data, isLoading } = useQuery({
     queryKey: ["product-detail"],
     queryFn: () => getProductDetail(productId),
   });
+  const deleteMutation = useMutation({
+    mutationFn: () => deleteProduct(productId),
+    onSuccess: () => {
+      navigate("/items");
+    },
+  });
   const userInfo = useAtomValue(userInfoAtom);
+
+  const handleDelete = () => {
+    const confirm = window.confirm("게시글을 삭제하시겠습니까?");
+
+    if (confirm) deleteMutation.mutate();
+  };
 
   if (isLoading) return <Loading />;
 
@@ -55,7 +68,7 @@ function ProductDetailInfo({ productId }: { productId: string }) {
 
               <Dropdown.List>
                 <Dropdown.Item>수정하기</Dropdown.Item>
-                <Dropdown.Item>삭제하기</Dropdown.Item>
+                <Dropdown.Item onClick={handleDelete}>삭제하기</Dropdown.Item>
               </Dropdown.List>
             </Dropdown.Root>
           ) : (

@@ -1,14 +1,5 @@
 import { atom } from "jotai";
 
-interface UserInfo {
-  id: number;
-  nickname: string;
-  image: string | null;
-  createdAt: string;
-  updatedAt: string;
-  email: string;
-}
-
 const atomWithLocalStorage = (key: string, initialValue: null) => {
   const getInitialValue = () => {
     const item = localStorage.getItem(key);

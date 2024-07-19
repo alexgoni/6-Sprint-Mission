@@ -58,3 +58,20 @@ export async function postProduct(payload: PostProductPayload) {
 
   return body;
 }
+
+export async function deleteProduct(productId: string) {
+  const accessToken = localStorage.getItem("accessToken");
+  const url = `${process.env.REACT_APP_BASE_URL}/products/${productId}`;
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  console.log(res);
+
+  const body = await res.json();
+
+  return body;
+}
