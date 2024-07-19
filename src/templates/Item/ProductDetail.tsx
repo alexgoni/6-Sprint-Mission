@@ -14,6 +14,9 @@ import backIcon from "assets/icon/ic_back.svg";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductDetail } from "api/product";
 import { getCommentList, postComment } from "api/comment";
+import { useAtomValue } from "jotai";
+import { userInfoAtom } from "contexts/atom/user";
+import Dropdown from "components/Dropdown";
 import * as S from "./ProductDetail.style";
 
 export default function ProductDetail() {
@@ -34,6 +37,7 @@ function ProductDetailInfo({ productId }: { productId: string }) {
     queryKey: ["product-detail"],
     queryFn: () => getProductDetail(productId),
   });
+  const userInfo = useAtomValue(userInfoAtom);
 
   if (isLoading) return <Loading />;
 
@@ -43,7 +47,21 @@ function ProductDetailInfo({ productId }: { productId: string }) {
       <S.InfoContainer>
         <S.InfoTop>
           <h1 className="product-name">{data?.name}</h1>
-          <img className="kebab-icon" src={kebabIcon} alt="ic-kebab" />
+          {userInfo && userInfo.id === data.ownerId ? (
+            <Dropdown.Root>
+              <Dropdown.Toggle>
+                <img src={kebabIcon} alt="kebab" />
+              </Dropdown.Toggle>
+
+              <Dropdown.List>
+                <Dropdown.Item>수정하기</Dropdown.Item>
+                <Dropdown.Item>삭제하기</Dropdown.Item>
+              </Dropdown.List>
+            </Dropdown.Root>
+          ) : (
+            <div />
+          )}
+
           <span className="price">{addCommas(data?.price as number)}원</span>
         </S.InfoTop>
 

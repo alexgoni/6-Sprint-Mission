@@ -4,19 +4,35 @@ import defaultProfile from "assets/icon/profile.svg";
 import formatTimeAgo from "utils/formatTimeAgo";
 import CommentType from "models/comment";
 import COLORS from "styles/palette";
+import { useAtomValue } from "jotai";
+import { userInfoAtom } from "contexts/atom/user";
+import Dropdown from "components/Dropdown";
 
 export default function Comment({ data }: { data: CommentType }) {
   const {
+    id,
     content,
     updatedAt,
-    writer: { nickname, image },
+    writer: { nickname, image, id: writerId },
   } = data;
+  const userInfo = useAtomValue(userInfoAtom);
 
   return (
     <CommentContainer>
       <StyledContent>
         <span>{content}</span>
-        <img src={kebab} alt="kebab" />
+        {userInfo && userInfo.id === writerId && (
+          <Dropdown.Root>
+            <Dropdown.Toggle>
+              <img src={kebab} alt="kebab" />
+            </Dropdown.Toggle>
+
+            <Dropdown.List>
+              <Dropdown.Item>수정하기</Dropdown.Item>
+              <Dropdown.Item>삭제하기</Dropdown.Item>
+            </Dropdown.List>
+          </Dropdown.Root>
+        )}
       </StyledContent>
 
       <ProfileContainer>
