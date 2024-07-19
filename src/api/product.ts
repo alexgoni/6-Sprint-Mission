@@ -33,3 +33,28 @@ export async function getProductDetail(productId: string) {
 
   return body;
 }
+
+export interface PostProductPayload {
+  images: string[];
+  tags: string[];
+  price: number;
+  description: string;
+  name: string;
+}
+
+export async function postProduct(payload: PostProductPayload) {
+  const accessToken = localStorage.getItem("accessToken");
+  const url = `${process.env.REACT_APP_BASE_URL}/products`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ ...payload }),
+  });
+
+  const body = await res.json();
+
+  return body;
+}

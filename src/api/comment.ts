@@ -32,7 +32,6 @@ interface PostCommentParams {
 
 export async function postComment({ productId, content }: PostCommentParams) {
   const accessToken = localStorage.getItem("accessToken");
-
   const url = `${process.env.REACT_APP_BASE_URL}/products/${productId}/comments`;
   const res = await fetch(url, {
     method: "POST",
