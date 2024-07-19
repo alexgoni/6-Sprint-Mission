@@ -46,3 +46,40 @@ export async function postComment({ productId, content }: PostCommentParams) {
 
   return body;
 }
+
+interface EditCommentParams {
+  commentId: number;
+  content: string;
+}
+
+export async function editComment({ commentId, content }: EditCommentParams) {
+  const accessToken = localStorage.getItem("accessToken");
+  const url = `${process.env.REACT_APP_BASE_URL}/comments/${commentId}`;
+  const res = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ content }),
+  });
+
+  const body = await res.json();
+
+  return body;
+}
+
+export async function deleteComment(commentId: number) {
+  const accessToken = localStorage.getItem("accessToken");
+  const url = `${process.env.REACT_APP_BASE_URL}/comments/${commentId}`;
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  const body = await res.json();
+
+  return body;
+}
