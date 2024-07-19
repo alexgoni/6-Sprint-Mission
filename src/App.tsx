@@ -15,6 +15,7 @@ import GlobalStyle from "styles/GlobalStyle";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Provider } from "jotai";
+import EditItemPage from "pages/market/EditItem";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/items/:productId" element={<ItemPage />} />
           <Route path="/free-board" element={<FreeBoard />} />
           <Route path="/additem" element={<AddItemPage />} />
+          <Route path="/edititem/:productId" element={<EditItemPage />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/privacy" element={<Privacy />} />
         </Routes>

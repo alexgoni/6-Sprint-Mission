@@ -67,7 +67,11 @@ function ProductDetailInfo({ productId }: { productId: string }) {
               </Dropdown.Toggle>
 
               <Dropdown.List>
-                <Dropdown.Item>수정하기</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => navigate(`/edititem/${productId}`)}
+                >
+                  수정하기
+                </Dropdown.Item>
                 <Dropdown.Item onClick={handleDelete}>삭제하기</Dropdown.Item>
               </Dropdown.List>
             </Dropdown.Root>

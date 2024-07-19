@@ -69,7 +69,33 @@ export async function deleteProduct(productId: string) {
     },
   });
 
-  console.log(res);
+  const body = await res.json();
+
+  return body;
+}
+
+interface EditProductParams {
+  productId: string;
+  payload: {
+    images: string[];
+    tags: string[];
+    price: number;
+    description: string;
+    name: string;
+  };
+}
+
+export async function editProduct({ productId, payload }: EditProductParams) {
+  const accessToken = localStorage.getItem("accessToken");
+  const url = `${process.env.REACT_APP_BASE_URL}/products/${productId}`;
+  const res = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ ...payload }),
+  });
 
   const body = await res.json();
 
