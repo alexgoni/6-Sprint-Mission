@@ -4,7 +4,6 @@ import Loading from "components/Loading";
 import Input from "components/Input";
 import Card from "components/Card";
 import useDeviceState from "hooks/useDeviceState";
-import useAxiosFetch from "hooks/useAxiosFetch";
 import getPageSize from "utils/getPageSize";
 import Product from "models/product";
 import {

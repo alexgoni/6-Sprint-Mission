@@ -24,3 +24,12 @@ export async function getProducts({
 
   return body;
 }
+
+export async function getProductDetail(productId: string) {
+  const url = `${process.env.REACT_APP_BASE_URL}/products/${productId}`;
+
+  const res = await fetch(url);
+  const body = await res.json();
+
+  return body;
+}

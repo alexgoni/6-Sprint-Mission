@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import kebab from "assets/icon/ic_kebab.svg";
+import defaultProfile from "assets/icon/profile.svg";
 import formatTimeAgo from "utils/formatTimeAgo";
 import CommentType from "models/comment";
 import COLORS from "styles/palette";
@@ -19,7 +20,7 @@ export default function Comment({ data }: { data: CommentType }) {
       </StyledContent>
 
       <ProfileContainer>
-        <ProfileImg src={image} alt="profile-img" />
+        <ProfileImg src={image ?? defaultProfile} alt="profile-img" />
         <span className="username">{nickname}</span>
         <span className="updated-time">{formatTimeAgo(updatedAt)}</span>
       </ProfileContainer>
