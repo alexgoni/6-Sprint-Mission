@@ -20,6 +20,7 @@
   "dependencies": {
     "axios": "^1.7.2",
     "classnames": "^2.5.1",
+    "cocursor": "^0.0.5",
     "daisyui": "^4.11.1",
     "next": "13.5.6",
     "react": "^18",
